@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>장덕고 2학년 국어 학습터 - DAY 13</title>
+    <title>장덕고 2학년 국어 학습터</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -20,14 +20,14 @@
             <h1 class="text-xl font-bold flex items-center gap-2 cursor-pointer" onclick="goHome()">
                 <i class="fa-solid fa-graduation-cap"></i> 장덕고 2학년 국어 학습터
             </h1>
-            <span class="text-xs bg-indigo-500 px-3 py-1 rounded-full font-medium">DAY 13 실전 마스터</span>
+            <span class="text-xs bg-indigo-500 px-3 py-1 rounded-full font-medium">2026학년도</span>
         </div>
     </header>
 
     <!-- Main Container -->
     <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-grow">
 
-        <!-- [VIEW 1] 메인 화면: 교재 선택 -->
+        <!-- [VIEW 1] 메인 화면: 교재 선택 (교과서, 부교재, 학습지) -->
         <div id="view-home" class="space-y-6">
             <div class="text-center space-y-2 mb-8">
                 <h2 class="text-2xl font-extrabold text-slate-900">학습 자료실</h2>
@@ -35,26 +35,70 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- 부교재 카드 (DAY 13 바로 진입 가능하도록 구현) -->
-                <div onclick="selectCategory('workbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-emerald-200 transition cursor-pointer flex flex-col justify-between group md:col-start-2">
+                <!-- 교과서 카드 -->
+                <div onclick="selectCategory('textbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-200 transition cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-1">교과서</h3>
+                        <p class="text-slate-500 text-xs">문학 (비상 강호영)</p>
+                    </div>
+                    <div class="mt-6 text-indigo-600 text-sm font-semibold flex items-center gap-1">
+                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- 부교재 카드 -->
+                <div onclick="selectCategory('workbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-emerald-200 transition cursor-pointer flex flex-col justify-between group">
                     <div>
                         <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition">
                             <i class="fa-solid fa-book"></i>
                         </div>
                         <h3 class="font-bold text-lg text-slate-800 mb-1">부교재</h3>
-                        <p class="text-slate-500 text-xs">수평선 기출국어 (DAY 13 현대소설)</p>
+                        <p class="text-slate-500 text-xs">수평선 기출국어 (이투스북)</p>
                     </div>
                     <div class="mt-6 text-emerald-600 text-sm font-semibold flex items-center gap-1">
-                        학습 시작하기 <i class="fa-solid fa-arrow-right text-xs"></i>
+                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- 학습지 카드 -->
+                <div onclick="selectCategory('studyguide')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-amber-200 transition cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-1">학습지 모음</h3>
+                        <p class="text-slate-500 text-xs">송선희T, 이미지T / 한정숙T, 박찬용T</p>
+                    </div>
+                    <div class="mt-6 text-amber-600 text-sm font-semibold flex items-center gap-1">
+                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- [VIEW 2] 작품 선택 화면 (복덕방 / 점경) -->
+        <!-- [VIEW 2] 세부 목록 화면 (부교재 DAY 13 또는 교과서 단원 목록 등) -->
         <div id="view-list" class="hidden space-y-6">
             <button onclick="goHome()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
                 <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
+            </button>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 id="list-title" class="text-xl font-bold text-slate-900 mb-1">카테고리 제목</h2>
+                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">세부 항목을 선택하세요.</p>
+                
+                <div id="item-container" class="space-y-3">
+                    <!-- 자바스크립트로 동적 생성됨 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- [VIEW 3] 부교재 DAY 13 작품 선택 화면 (복덕방 / 점경) -->
+        <div id="view-sublist" class="hidden space-y-6">
+            <button onclick="selectCategory('workbook')" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
+                <i class="fa-solid fa-arrow-left"></i> 부교재 목록으로 돌아가기
             </button>
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
@@ -79,16 +123,16 @@
             </div>
         </div>
 
-        <!-- [VIEW 3] 4단계 학습 공간 (탭 인터페이스) -->
+        <!-- [VIEW 4] 4단계 학습 공간 (탭 인터페이스) -->
         <div id="view-study" class="hidden space-y-6">
-            <button onclick="backToList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
+            <button onclick="backToSubList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
                 <i class="fa-solid fa-arrow-left"></i> 작품 목록으로 돌아가기
             </button>
 
             <!-- 작품 타이틀 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center">
                 <div>
-                    <span id="study-badge" class="text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-semibold">DAY 13</span>
+                    <span id="study-badge" class="text-xs bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-semibold">부교재 DAY 13</span>
                     <h2 id="study-title" class="text-2xl font-bold text-slate-900 mt-1">작품 제목</h2>
                 </div>
                 <button onclick="toggleAllBlanks()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs px-4 py-2 rounded-lg font-bold transition shadow-sm">
@@ -98,16 +142,16 @@
 
             <!-- 탭 메뉴 버튼들 -->
             <div class="flex overflow-x-auto gap-2 bg-slate-200/70 p-1.5 rounded-2xl">
-                <button onclick="switchTab(1)" id="tab-btn-1" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition bg-white text-indigo-600 shadow-sm">
+                <button onclick="switchTab(1)" id="tab-btn-1" class="flex-1 min-w-[90px] py-3 px-3 rounded-xl font-bold text-xs md:text-sm transition bg-white text-indigo-600 shadow-sm">
                     <i class="fa-solid fa-image"></i> 탭1. 학습 만화
                 </button>
-                <button onclick="switchTab(2)" id="tab-btn-2" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                <button onclick="switchTab(2)" id="tab-btn-2" class="flex-1 min-w-[90px] py-3 px-3 rounded-xl font-bold text-xs md:text-sm transition text-slate-600 hover:text-slate-900">
                     <i class="fa-solid fa-file-lines"></i> 탭2. 작품 분석
                 </button>
-                <button onclick="switchTab(3)" id="tab-btn-3" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                <button onclick="switchTab(3)" id="tab-btn-3" class="flex-1 min-w-[90px] py-3 px-3 rounded-xl font-bold text-xs md:text-sm transition text-slate-600 hover:text-slate-900">
                     <i class="fa-solid fa-circle-question"></i> 탭3. 확인 문제
                 </button>
-                <button onclick="switchTab(4)" id="tab-btn-4" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                <button onclick="switchTab(4)" id="tab-btn-4" class="flex-1 min-w-[90px] py-3 px-3 rounded-xl font-bold text-xs md:text-sm transition text-slate-600 hover:text-slate-900">
                     <i class="fa-solid fa-pen-to-square"></i> 탭4. 실전 문제
                 </button>
             </div>
@@ -183,6 +227,41 @@
 
     <!-- JavaScript 로직 -->
     <script>
+        // 전체 카테고리 데이터 (교과서, 부교재, 학습지)
+        const siteData = {
+            textbook: {
+                title: "교과서 : 문학 (비상 강호영)",
+                subtitle: "비상교육 강호영 저 문학 교과서 학습 자료",
+                items: [
+                    { title: "1단원. 나를 깨우는, 문학", summary: "문학의 본질과 인식적·윤리적 기능 학습" },
+                    { title: "2단원. 다양한 빛깔로 만나는, 문학", summary: "서정, 서사, 극, 교술 갈래의 이해" },
+                    { title: "3단원. 역사와 함께 흐르는, 문학", summary: "한국 문학의 흐름과 시대별 대표 작품 총정리" },
+                    { title: "4단원. 삶과 함께하는, 문학", summary: "자아 성찰과 타자 이해, 공동체 참여" }
+                ]
+            },
+            workbook: {
+                title: "부교재 : 수평선 기출국어 (이투스북)",
+                subtitle: "수능형 내신 대비를 위한 기출 분석 부교재",
+                items: [
+                    { title: "DAY 01 ~ DAY 06 (현대시)", summary: "관조와 성찰, 사랑과 그리움, 현실 극복 의지 등" },
+                    { title: "DAY 07 ~ DAY 12 (고전 시가)", summary: "자연 친화, 연군지정, 교훈과 학문, 가난과 흥취 등" },
+                    { title: "DAY 13 (일제 강점기 현대소설)", summary: "이태준 「복덕방」 및 「점경」 핵심 분석 및 학습만화", isSpecial: true },
+                    { title: "DAY 14 ~ DAY 18 (산업화 및 현대 소설)", summary: "산업화와 노동자, 삶과 성찰 등" },
+                    { title: "DAY 19 ~ DAY 24 (고전 소설)", summary: "영웅 소설, 애정 소설, 판소리계 소설 등" }
+                ]
+            },
+            studyguide: {
+                title: "학습지 모음",
+                subtitle: "선생님별 제공되는 보충 학습지 및 핵심 요약 자료",
+                items: [
+                    { title: "[송선희T, 이미지T] 1학기 중간고사 대비 핵심 학습지", summary: "적중 예상 문항 및 핵심 요약 프린트" },
+                    { title: "[송선희T, 이미지T] 1학기 기말고사 대비 보충 학습지", summary: "심화 문제 및 서술형 대비 워크시트" },
+                    { title: "[한정숙T, 박찬용T] 현대 문학 집중 탐구 학습지", summary: "현대시 및 현대소설 핵심 분석" },
+                    { title: "[한정숙T, 박찬용T] 고전 문학 총정리 프린트물", summary: "내신 출제 1순위 고전 작품 완벽 대비" }
+                ]
+            }
+        };
+
         // DAY 13 데이터베이스 (복덕방 & 점경)
         const day13Data = {
             bokdeokbang: {
@@ -190,7 +269,7 @@
                 comic: [
                     { title: "1. 등장인물 및 설정", desc: "안 초시(60대 노인, 실패한 구세대의 표상, 허황된 야심) / 안경화(딸, 물질만능주의에 찌든 이기적 신여성) / 박희완 영감(부동산 정보 제공 조력자)[cite: 14]." },
                     { title: "2. 핵심 소재의 기능", desc: "'종이 노끈 안경': 가난하고 초라한 안 초시의 처지와 무너진 자존심을 시각적으로 보여줌. / '맑은 가을 하늘': 파국을 맞은 주인공의 절망감을 극대화하는 대조적 배경[cite: 15, 23]." },
-                    { title: "3. 서상상 특징", desc: "전지적 작가 시점. 1년 동안의 사건 경과를 '요약적 서술'로 압축하여 사건 전개 속도를 높임[cite: 20, 23]." }
+                    { title: "3. 서술상 특징", desc: "전지적 작가 시점. 1년 동안의 사건 경과를 '요약적 서술'로 압축하여 사건 전개 속도를 높임[cite: 20, 23]." }
                 ],
                 analysisSections: [
                     {
@@ -337,6 +416,7 @@
             }
         };
 
+        let currentCategoryKey = '';
         let currentWorkKey = 'bokdeokbang';
         let currentTab = 1;
         let currentQuizSub = 1;
@@ -344,14 +424,49 @@
         function showView(viewId) {
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-list').classList.add('hidden');
+            document.getElementById('view-sublist').classList.add('hidden');
             document.getElementById('view-study').classList.add('hidden');
             document.getElementById(viewId).classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
         function goHome() { showView('view-home'); }
-        function selectCategory(key) { showView('view-list'); }
-        function backToList() { showView('view-list'); }
+
+        function selectCategory(categoryKey) {
+            currentCategoryKey = categoryKey;
+            const data = siteData[categoryKey];
+
+            document.getElementById('list-title').innerText = data.title;
+            document.getElementById('list-subtitle').innerText = data.subtitle;
+
+            const container = document.getElementById('item-container');
+            container.innerHTML = '';
+
+            data.items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${index + 1}</span>
+                        <div>
+                            <span class="font-semibold text-slate-800 text-sm md:text-base">${item.title}</span>
+                            <p class="text-xs text-slate-400 mt-0.5">${item.summary}</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                `;
+
+                // 부교재의 DAY 13(세 번째 항목)을 누를 때만 특별 학습터(sublist)로 이동
+                if (categoryKey === 'workbook' && item.isSpecial) {
+                    card.onclick = () => showView('view-sublist');
+                } else {
+                    card.onclick = () => alert('선택하신 항목의 상세 학습 페이지 준비 중입니다! (부교재 DAY 13을 클릭해 보세요)');
+                }
+                container.appendChild(card);
+            });
+
+            showView('view-list');
+        }
 
         function selectWork(workKey) {
             currentWorkKey = workKey;
@@ -361,17 +476,19 @@
             switchTab(1);
         }
 
+        function backToSubList() { showView('view-sublist'); }
+
         // 탭 전환 함수
         function switchTab(tabNum) {
             currentTab = tabNum;
             for (let i = 1; i <= 4; i++) {
                 document.getElementById(`tab-content-${i}`).classList.add('hidden');
                 const btn = document.getElementById(`tab-btn-${i}`);
-                btn.className = "flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900";
+                btn.className = "flex-1 min-w-[90px] py-3 px-3 rounded-xl font-bold text-xs md:text-sm transition text-slate-600 hover:text-slate-900";
             }
             document.getElementById(`tab-content-${tabNum}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`tab-btn-${tabNum}`);
-            activeBtn.className = "flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition bg-white text-indigo-600 shadow-sm";
+            activeBtn.className = "flex-1 min-w-[90px] py-3 px-3 rounded-xl font-bold text-xs md:text-sm transition bg-white text-indigo-600 shadow-sm";
 
             if (tabNum === 1) renderComic();
             if (tabNum === 2) renderAnalysisSub(0);
@@ -406,9 +523,7 @@
                 const subBtn = document.createElement('button');
                 subBtn.className = `px-3 py-1.5 rounded-lg text-xs font-bold transition ${idx === secIdx ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`;
                 subBtn.innerText = sec.name;
-                subBtn.onclick = () => {
-                    renderAnalysisSub(idx);
-                };
+                subBtn.onclick = () => renderAnalysisSub(idx);
                 subtabsContainer.appendChild(subBtn);
             });
 
