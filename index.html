@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장덕고 2학년 국어 학습 페이지</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-md">
+        <div class="max-w-4xl mx-auto px-4 py-5 flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2 cursor-pointer" onclick="goHome()">
+                <i class="fa-solid fa-graduation-cap"></i> 장덕고 2학년 국어 학습터
+            </h1>
+            <span class="text-xs bg-indigo-500 px-3 py-1 rounded-full font-medium">2026학년도</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-grow">
+
+        <!-- [VIEW 1] 메인 화면: 카테고리 선택 -->
+        <div id="view-home" class="space-y-6">
+            <div class="text-center space-y-2 mb-8">
+                <h2 class="text-2xl font-extrabold text-slate-900">학습 자료실</h2>
+                <p class="text-slate-500 text-sm">공부할 영역(교과서, 부교재, 학습지)을 선택하세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 교과서 카드 -->
+                <div onclick="selectCategory('textbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-200 transition cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-1">교과서</h3>
+                        <p class="text-slate-500 text-xs">문학 (비상 강호영)</p>
+                    </div>
+                    <div class="mt-6 text-indigo-600 text-sm font-semibold flex items-center gap-1">
+                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- 부교재 카드 -->
+                <div onclick="selectCategory('workbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-200 transition cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-1">부교재</h3>
+                        <p class="text-slate-500 text-xs">수평선 기출국어 (이투스북)</p>
+                    </div>
+                    <div class="mt-6 text-emerald-600 text-sm font-semibold flex items-center gap-1">
+                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- 학습지 카드 -->
+                <div onclick="selectCategory('studyguide')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-200 transition cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-1">학습지 모음</h3>
+                        <p class="text-slate-500 text-xs">송선희T, 이미지T / 한정숙T, 박찬용T</p>
+                    </div>
+                    <div class="mt-6 text-amber-600 text-sm font-semibold flex items-center gap-1">
+                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [VIEW 2] 세부 목록 화면 -->
+        <div id="view-list" class="hidden space-y-6">
+            <button onclick="goHome()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
+                <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
+            </button>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 id="list-title" class="text-xl font-bold text-slate-900 mb-1">카테고리 제목</h2>
+                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">세부 단원이나 학습지를 선택하세요.</p>
+                
+                <div id="item-container" class="space-y-3">
+                    <!-- 자바스크립트로 동적 생성됨 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- [VIEW 3] 상세 학습 내용 화면 -->
+        <div id="view-detail" class="hidden space-y-6">
+            <button onclick="backToList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
+                <i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기
+            </button>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div>
+                    <span id="detail-badge" class="text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-semibold">분류</span>
+                    <h2 id="detail-title" class="text-2xl font-bold text-slate-900 mt-2">콘텐츠 제목</h2>
+                </div>
+                <hr class="border-slate-100">
+                <div id="detail-content" class="text-slate-700 leading-relaxed space-y-4">
+                    <!-- 학습 내용 영역 -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-400">
+        <p>Jangdeok High School - Grade 2 Korean Language Learning Page</p>
+    </footer>
+
+    <!-- JavaScript 로직 -->
+    <script>
+        // 📚 데이터 관리 영역 (나중에 단원이나 학습지를 추가하려면 여기에 내용을 수정/추가하면 됩니다!)
+        const siteData = {
+            textbook: {
+                title: "교과서 : 문학 (비상 강호영)",
+                subtitle: "비상교육 강호영 저 문학 교과서 학습 자료",
+                items: [
+                    { title: "1단원. 문학의 본질과 미적 기능", summary: "문학의 개념, 형상화 방식, 미적 가치에 대한 핵심 정리 및 예시 문항입니다." },
+                    { title: "2단원. 갈래별 문학의 이해 (서정·서사 갈래)", summary: "현대시와 고전 시가, 소설의 구조 및 감상 포인트 정리입니다." },
+                    { title: "3단원. 갈래별 문학의 이해 (극·교수 갈래)", summary: "희곡, 시나리오, 수필, 비평 등의 장르적 특성과 주요 작품 분석입니다." },
+                    { title: "4단원. 한국 문학의 흐름", summary: "고대 문학부터 현대 문학까지 시대별 문학사의 흐름과 대표 작품 총정리입니다." }
+                ]
+            },
+            workbook: {
+                title: "부교재 : 수평선 기출국어 (이투스북)",
+                subtitle: "수능형 내신 대비를 위한 기출 분석 부교재",
+                items: [
+                    { title: "PART 01. 현대시 핵심 테마 및 기출 분석", summary: "시어의 의미, 표현상 특징, 화자의 정서 파악 문제 연습입니다." },
+                    { title: "PART 02. 고전 시가 필수 작품 및 연계", summary: "고전 시가 현대어 풀이 및 출제 빈도가 높은 핵심 작품 모음입니다." },
+                    { title: "PART 03. 현대 소설 구조 및 감상", summary: "서술상의 특징, 인물의 성격 심리 파악 기출 선지 분석입니다." },
+                    { title: "PART 04. 고전 산문 및 갈래 복합", summary: "고전 소설 및 고전 수필 고난도 기출 문항 풀이입니다." }
+                ]
+            },
+            studyguide: {
+                title: "학습지 모음",
+                subtitle: "선생님별 제공되는 보충 학습지 및 핵심 요약 자료",
+                items: [
+                    { title: "[송선희T, 이미지T] 1학기 중간고사 대비 핵심 학습지", summary: "송선희 선생님과 이미지 선생님이 출제한 학교 시험 적중 예상 학습지 자료입니다." },
+                    { title: "[송선희T, 이미지T] 1학기 기말고사 대비 보충 학습지", summary: "기말고사 범위의 심화 문제 및 서술형 대비 학습지입니다." },
+                    { title: "[한정숙T, 박찬용T] 현대 문학 집중 탐구 학습지", summary: "한정숙 선생님, 박찬용 선생님의 현대시 및 현대소설 핵심 분석 학습지입니다." },
+                    { title: "[한정숙T, 박찬용T] 고전 문학 총정리 프린트물", summary: "내신 출제 1순위 고전 작품 완벽 대비 워크시트입니다." }
+                ]
+            }
+        };
+
+        let currentCategoryKey = '';
+
+        // 화면 전환 함수들
+        function showView(viewId) {
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-list').classList.add('hidden');
+            document.getElementById('view-detail').classList.add('hidden');
+            document.getElementById(viewId).classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function goHome() {
+            showView('view-home');
+        }
+
+        function selectCategory(categoryKey) {
+            currentCategoryKey = categoryKey;
+            const data = siteData[categoryKey];
+
+            document.getElementById('list-title').innerText = data.title;
+            document.getElementById('list-subtitle').innerText = data.subtitle;
+
+            const container = document.getElementById('item-container');
+            container.innerHTML = '';
+
+            data.items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${index + 1}</span>
+                        <span class="font-semibold text-slate-800 text-sm md:text-base">${item.title}</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                `;
+                card.onclick = () => showDetail(index);
+                container.appendChild(card);
+            });
+
+            showView('view-list');
+        }
+
+        function backToList() {
+            selectCategory(currentCategoryKey);
+        }
+
+        function showDetail(itemIndex) {
+            const item = siteData[currentCategoryKey].items[itemIndex];
+            const categoryData = siteData[currentCategoryKey];
+
+            document.getElementById('detail-badge').innerText = categoryData.title.split(':')[0].trim();
+            document.getElementById('detail-title').innerText = item.title;
+            
+            document.getElementById('detail-content').innerHTML = `
+                <div class="bg-indigo-50/50 p-6 rounded-xl border border-indigo-100/60 space-y-2">
+                    <h3 class="font-bold text-indigo-900 text-sm"><i class="fa-solid fa-circle-info"></i> 학습 안내 및 요약</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">${item.summary}</p>
+                </div>
+                <div class="pt-4 space-y-3">
+                    <p class="text-xs text-slate-400">※ 수업 시간에 배부된 인쇄물이나 필기 노트를 함께 참고하여 학습하세요.</p>
+                </div>
+            `;
+
+            showView('view-detail');
+        }
+    </script>
+</body>
+</html>
