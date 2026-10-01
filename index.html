@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <!-- [VIEW 2] 대단원 선택 화면 (교과서의 경우) 또는 일반 목록 화면 -->
+        <!-- [VIEW 2] 대단원/파트 선택 화면 -->
         <div id="view-list" class="hidden space-y-6">
             <button onclick="goHome()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
                 <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
@@ -83,7 +83,7 @@
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <h2 id="list-title" class="text-xl font-bold text-slate-900 mb-1">카테고리 제목</h2>
-                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">대단원을 선택하세요.</p>
+                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">항목을 선택하세요.</p>
                 
                 <div id="item-container" class="space-y-3">
                     <!-- 자바스크립트로 동적 생성됨 -->
@@ -91,15 +91,15 @@
             </div>
         </div>
 
-        <!-- [VIEW 3] 소단원(작품) 목록 화면 (교과서 전용 3단계) -->
+        <!-- [VIEW 3] 소단원/DAY 세부 작품 목록 화면 -->
         <div id="view-sublist" class="hidden space-y-6">
             <button onclick="backToList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
-                <i class="fa-solid fa-arrow-left"></i> 대단원 목록으로 돌아가기
+                <i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기
             </button>
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h2 id="sublist-title" class="text-xl font-bold text-slate-900 mb-1">소단원 제목</h2>
-                <p id="sublist-subtitle" class="text-sm text-slate-500 mb-6">학습할 소단원 및 작품을 선택하세요.</p>
+                <h2 id="sublist-title" class="text-xl font-bold text-slate-900 mb-1">세부 목록 제목</h2>
+                <p id="sublist-subtitle" class="text-sm text-slate-500 mb-6">학습할 작품이나 파트를 선택하세요.</p>
                 
                 <div id="subitem-container" class="space-y-3">
                     <!-- 자바스크립트로 동적 생성됨 -->
@@ -110,7 +110,7 @@
         <!-- [VIEW 4] 상세 학습 내용 화면 -->
         <div id="view-detail" class="hidden space-y-6">
             <button onclick="backToSubList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
-                <i class="fa-solid fa-arrow-left"></i> 소단원 목록으로 돌아가기
+                <i class="fa-solid fa-arrow-left"></i> 세부 목록으로 돌아가기
             </button>
 
             <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6">
@@ -134,62 +134,101 @@
 
     <!-- JavaScript 로직 -->
     <script>
-        // 📚 비상(강호영) 문학 교과서 및 부교재·학습지 목차 데이터
         const siteData = {
             textbook: {
                 title: "교과서 : 문학 (비상 강호영)",
                 subtitle: "비상교육 강호영 저 문학 교과서 학습 자료",
-                isGrouped: true, // 대단원-소단원 계층 구조 사용 여부
+                isGrouped: true,
                 items: [
                     {
                         unit: "1단원. 나를 깨우는, 문학",
                         subItems: [
-                            { title: "01. 문학의 본질과 미적 기능 - 작품 1: 첫사랑 (고재종)", summary: "고재종 시인의 '첫사랑' 감상을 통해 문학의 형상화 방식과 미적 가치를 이해합니다." },
-                            { title: "02. 문학의 인식적·윤리적 기능 - 작품 1: 빙그레의 영역 (김소연)", summary: "김소연 시인의 작품을 통해 삶의 이면을 통찰하는 인식적 기능을 학습합니다." },
-                            { title: "02. 문학의 인식적·윤리적 기능 - 작품 2: 쉽게 씌어진 시 (윤동주)", summary: "일제 강점기 자아 성찰의 과정을 담은 윤동주의 시를 통해 윤리적 기능을 이해합니다." }
+                            { title: "01. 문학의 본질과 미적 기능 - 첫사랑 (고재종)", summary: "고재종 시인의 '첫사랑' 감상을 통해 문학의 형상화 방식과 미적 가치를 이해합니다." },
+                            { title: "02. 문학의 인식적·윤리적 기능 - 빙그레의 영역 (김소연)", summary: "김소연 시인의 작품을 통해 삶의 이면을 통찰하는 인식적 기능을 학습합니다." },
+                            { title: "02. 문학의 인식적·윤리적 기능 - 쉽게 씌어진 시 (윤동주)", summary: "일제 강점기 자아 성찰의 과정을 담은 윤동주의 시를 통해 윤리적 기능을 이해합니다." }
                         ]
                     },
                     {
                         unit: "2단원. 다양한 빛깔로 만나는, 문학",
                         subItems: [
-                            { title: "01. 서정 갈래의 이해 - 작품 1: 그 복숭아나무 곁으로 (나희덕)", summary: "타자에 대한 깊은 이해와 공감을 다룬 나희덕의 시를 감상합니다." },
-                            { title: "01. 서정 갈래의 이해 - 작품 2: 흰 바람벽이 있어 (백석)", summary: "백석 시인의 작품 속 외로움과 삶의 연민, 자아 성찰의 정서를 파악합니다." },
-                            { title: "02. 서사 갈래의 이해 - 작품 1: 이생규장전 (김시습)", summary: "최초의 한문 소설집 '금오신화' 중 비극적 사랑을 다룬 '이생규장전'을 분석합니다." },
-                            { title: "02. 서사 갈래의 이해 - 작품 2: 도도한 생활 (김애란)", summary: "현대 소설 속 인물의 삶의 애환과 대응 방식을 살펴봅니다." },
-                            { title: "03. 극, 교술 갈래의 이해 - 작품 1: 리바운드 (영화 각본·감독)", summary: "실화를 바탕으로 한 극 갈래 작품의 구조와 감상 포인트를 익힙니다." },
-                            { title: "03. 극, 교술 갈래의 이해 - 작품 2: 뒤지가 (이희승)", summary: "교술 갈래인 수필을 통해 작가의 삶의 태도와 깨달음을 정리합니다." },
-                            { title: "04. 문학 작품의 재구성과 창작", summary: "원작(박목월 시)과 재구성된 작품(정희성 시, 이기호 소설)의 차이점을 비교합니다." },
+                            { title: "01. 서정 갈래의 이해 - 그 복숭아나무 곁으로 (나희덕)", summary: "타자에 대한 깊은 이해와 공감을 다룬 나희덕의 시를 감상합니다." },
+                            { title: "01. 서정 갈래의 이해 - 흰 바람벽이 있어 (백석)", summary: "백석 시인의 작품 속 외로움과 삶의 연민, 자아 성찰의 정서를 파악합니다." },
+                            { title: "02. 서사 갈래의 이해 - 이생규장전 (김시습)", summary: "최초의 한문 소설집 '금오신화' 중 비극적 사랑을 다룬 '이생규장전'을 분석합니다." },
+                            { title: "02. 서사 갈래의 이해 - 도도한 생활 (김애란)", summary: "현대 소설 속 인물의 삶의 애환과 대응 방식을 살펴봅니다." },
+                            { title: "03. 극, 교술 갈래의 이해 - 리바운드 (영화 각본·감독)", summary: "실화를 바탕으로 한 극 갈래 작품의 구조와 감상 포인트를 익힙니다." },
+                            { title: "03. 극, 교술 갈래의 이해 - 뒤지가 (이희승)", summary: "교술 갈래인 수필을 통해 작가의 삶의 태도와 깨달음을 정리합니다." },
+                            { title: "04. 문학 작품의 재구성과 창작", summary: "원작과 재구성된 작품의 차이점을 비교합니다." },
                             { title: "05. 문학과 매체", summary: "다양한 매체로 변용된 문학 작품의 수용 양상을 학습합니다." }
                         ]
                     },
                     {
                         unit: "3단원. 역사와 함께 흐르는, 문학",
                         subItems: [
-                            { title: "01. 한국 문학의 성격 - 공무도하가 / 봉산탈춤 등", summary: "한국 문학의 전통과 특질을 대표 작품(고대가요, 탈춤 등)을 통해 살펴봅니다." },
-                            { title: "02. 상고 시대~고려 시대 문학 - 주몽 신화 / 찬기파랑가 / 동동", summary: "고대부터 고려 시대까지의 시대적 배경과 주요 향가·가요를 학습합니다." },
-                            { title: "03. 조선 시대 문학 - 시조, 사미인곡, 유충렬전, 일야구도하기", summary: "조선 시대 가사, 고전 소설, 한문 수필의 흐름과 기출 포인트를 총정리합니다." },
-                            { title: "04. 개화기~일제 강점기 문학 - 교목, 거울, 천변 풍경", summary: "근대화 과정 및 일제 강점기 저항·고뇌의 문학 작품들을 분석합니다." },
-                            { title: "05. 광복 이후 문학 - 오발탄, 대설주의보, 북어 대가리", summary: "광복 및 현대 사회의 아픔과 성찰을 담은 소설, 시, 희곡을 다룹니다." }
+                            { title: "01. 한국 문학의 성격", summary: "한국 문학의 전통과 특질을 대표 작품을 통해 살펴봅니다[cite: 3]." },
+                            { title: "02. 상고 시대~고려 시대 문학", summary: "주몽 신화, 찬기파랑가, 동동 등 고대~고려 시대 주요 문학을 학습합니다[cite: 3]." },
+                            { title: "03. 조선 시대 문학", summary: "시조, 사미인곡, 유충렬전, 일야구도하기 등 조선 시대 문학을 총정리합니다[cite: 3]." },
+                            { title: "04. 개화기~일제 강점기 문학", summary: "교목, 거울, 천변 풍경 등 근현대 초기 작품을 분석합니다[cite: 3]." },
+                            { title: "05. 광복 이후 문학", summary: "오발탄, 대설주의보, 북어 대가리 등 현대 문학 작품을 학습합니다[cite: 3]." }
                         ]
                     },
                     {
                         unit: "4단원. 삶과 함께하는, 문학",
                         subItems: [
-                            { title: "01. 자아 성찰과 타자 이해 - 나 (김광규) / 눈물은 왜 짠가 (함민복)", summary: "일상적 삶 속에서 자아를 돌아보고 타인의 아픔에 공감하는 시를 감상합니다." },
-                            { title: "02. 공동체 참여와 문학의 생활화 - 타클라마칸 배달 사고 (배명훈)", summary: "공동체의 가치를 되새기고 문학을 삶 속에서 실천하는 방안을 배웁니다." }
+                            { title: "01. 자아 성찰과 타자 이해 - 김광규, 함민복 작품", summary: "일상 속 자아 성찰과 타인에 대한 공감을 다룬 시를 감상합니다[cite: 1, 2]." },
+                            { title: "02. 공동체 참여와 문학의 생활화 - 타클라마칸 배달 사고 (배명훈)", summary: "공동체의 가치를 되새기고 문학의 생활화를 학습합니다[cite: 1, 2]." }
                         ]
                     }
                 ]
             },
             workbook: {
                 title: "부교재 : 수평선 기출국어 (이투스북)",
-                subtitle: "수능형 내신 대비를 위한 기출 분석 부교재",
-                isGrouped: false,
+                subtitle: "수능형 내신 대비를 위한 기출 분석 부교재 (DAY 01 ~ DAY 24)",
+                isGrouped: true,
                 items: [
-                    { title: "PART 01. 현대시 핵심 테마 및 기출 분석", summary: "시어의 의미, 표현상 특징, 화자의 정서 파악 문제 연습입니다." },
-                    { title: "PART 02. 고전 시가 필수 작품 및 연계", summary: "고전 시가 현대어 풀이 및 출제 빈도가 높은 핵심 작품 모음입니다." },
-                    { title: "PART 03. 현대 소설 구조 및 감상", summary: "서술상의 특징, 인물의 성격 심리 파악 기출 선지 분석입니다." },
-                    { title: "PART 04. 고전 산문 및 갈래 복합", summary: "고전 소설 및 고전 수필 고난도 기출 문항 풀이입니다." }
+                    {
+                        unit: "[현대시] DAY 01 ~ DAY 06",
+                        subItems: [
+                            { title: "DAY 01. 관조와 성찰", summary: "박목월 '하단에서', 함민복 '감나무', 오세영 '열매', 김광규 '대장간의 유혹' 등[cite: 11]" },
+                            { title: "DAY 02. 사랑과 그리움", summary: "김종길 '성탄제', 한용운 '수의 비밀', 김광균 '목련나무 옆에서', 정일근 '그리운 곳으로 돌아보라' 등[cite: 11]" },
+                            { title: "DAY 03. 현실 극복 의지", summary: "이육사 '광야', 박용래 '울타리 밖', 김기림 '태양의 풍속', 천양희 '마음의 수수밭' 등[cite: 11]" },
+                            { title: "DAY 04. 비판과 반성", summary: "김춘수 '겨울밤의 꿈', 오규원 '개봉동과 장미', 이성복 '다시 봄이 왔다', 김기택 '벽' 등[cite: 11]" },
+                            { title: "DAY 05. 연민과 유대감", summary: "김광균 '성호부근', 이성선 '논두렁에 서서', 김춘수 '부재', 황동규 '삶을 살아낸다는 건' 등[cite: 11]" },
+                            { title: "DAY 06. 자연과 생명", summary: "김영랑 '사개 틀린 고풍의 툇마루에', 정진규 '따뜻한 달걀', 정지용 '해바라기씨', 신경림 '낙타' 등[cite: 11]" }
+                        ]
+                    },
+                    {
+                        unit: "[고전 시가] DAY 07 ~ DAY 12",
+                        subItems: [
+                            { title: "DAY 07. 자연 친화", summary: "정훈 '수남방옹가', 신흠 '천정기', 김광욱 '율리유곡', 윤휴 '육우당기' 등[cite: 11]" },
+                            { title: "DAY 08. 연군지정", summary: "정철 '속미인곡', 권근 '주옹설', 이금익 '죽창곡', 홍우원 '노마설' 등[cite: 11]" },
+                            { title: "DAY 09. 교훈과 학문", summary: "정철 '훈민가', 장영희 '괜찮아', 이황 '도산십이곡', 이희승 '뒤지가 진적' 등[cite: 11]" },
+                            { title: "DAY 10. 가난과 흥취", summary: "백석 '흰 바람벽이 있어', 정훈 '탄궁가', '우활가', 이중경 '오대어부가구곡' 등[cite: 11]" },
+                            { title: "DAY 11. 기행과 여정", summary: "이방익 '표해가', 김기림 '여행', 백광홍 '관서별곡', 임춘 '동행기' 등[cite: 11]" },
+                            { title: "DAY 12. 무상감과 회한", summary: "청춘과부가, 신영복 '당신이 나무를 더 사랑하는 까닭', 이색 '부벽루' 등[cite: 11]" }
+                        ]
+                    },
+                    {
+                        unit: "[현대 소설] DAY 13 ~ DAY 18",
+                        subItems: [
+                            { title: "DAY 13. 일제 강점기", summary: "서유미 '저건 사람도 아니다', 이태준 '복덕방', '점경' 등[cite: 11, 12]" },
+                            { title: "DAY 14. 산업화와 노동자", summary: "성석제 '투명 인간', 서영은 '삼각돛' 등[cite: 12]" },
+                            { title: "DAY 15. 삶과 성찰", summary: "이청준 '과녁', 양귀자 '모순' 등[cite: 12]" },
+                            { title: "DAY 16. 현대인의 자화상", summary: "성석제 '론도' 등[cite: 12]" },
+                            { title: "DAY 17. 자연과 인식", summary: "오영수 '메아리', 이문구 '관촌수필' 등[cite: 12]" },
+                            { title: "DAY 18. 이념과 전쟁", summary: "윤흥길 '아이젠하워에게 보내는 멧돼지', 염상섭 '효풍' 등[cite: 12]" }
+                        ]
+                    },
+                    {
+                        unit: "[고전 소설] DAY 19 ~ DAY 24",
+                        subItems: [
+                            { title: "DAY 19. 영웅 소설", summary: "백봉선전, 진성운전, 월영낭자전 등[cite: 12]" },
+                            { title: "DAY 20. 여성 영웅 소설", summary: "정비전, 음양옥지환 등[cite: 12]" },
+                            { title: "DAY 21. 애정 소설 1", summary: "이생규장전, 옥단춘전, 왕시전 등[cite: 12]" },
+                            { title: "DAY 22. 애정 소설 2", summary: "왕경룡전 등[cite: 12]" },
+                            { title: "DAY 23. 가정 소설", summary: "유씨전, 토공전 등[cite: 12]" },
+                            { title: "DAY 24. 판소리계 소설", summary: "춘향전 등[cite: 12]" }
+                        ]
+                    }
                 ]
             },
             studyguide: {
@@ -208,7 +247,6 @@
         let currentCategoryKey = '';
         let selectedUnitIndex = null;
 
-        // 화면 전환 함수들
         function showView(viewId) {
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-list').classList.add('hidden');
@@ -236,7 +274,7 @@
                 const card = document.createElement('div');
                 card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
                 
-                const titleText = data.isGrouped ? item.unit : item.title;
+                const titleText = data.isGrouped ? (item.unit || item.title) : item.title;
                 card.innerHTML = `
                     <div class="flex items-center gap-3">
                         <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${index + 1}</span>
@@ -256,13 +294,12 @@
             showView('view-list');
         }
 
-        // 교과서 대단원 선택 시 소단원 목록 보여주기
         function selectUnit(unitIndex) {
             selectedUnitIndex = unitIndex;
-            const unitData = siteData.textbook.items[unitIndex];
+            const unitData = siteData[currentCategoryKey].items[unitIndex];
 
-            document.getElementById('sublist-title').innerText = unitData.unit;
-            document.getElementById('sublist-subtitle').innerText = "해당 단원의 소단원 및 학습할 작품을 선택하세요.";
+            document.getElementById('sublist-title').innerText = unitData.unit || unitData.title;
+            document.getElementById('sublist-subtitle').innerText = "해당 파트의 세부 학습 항목을 선택하세요.";
 
             const container = document.getElementById('subitem-container');
             container.innerHTML = '';
@@ -296,7 +333,6 @@
             }
         }
 
-        // 부교재/학습지용 바로 상세 보기
         function showDetailDirect(itemIndex) {
             const item = siteData[currentCategoryKey].items[itemIndex];
             const categoryData = siteData[currentCategoryKey];
@@ -317,12 +353,11 @@
             showView('view-detail');
         }
 
-        // 교과서 소단원 상세 보기
         function showDetail(subIndex) {
-            const unitData = siteData.textbook.items[selectedUnitIndex];
+            const unitData = siteData[currentCategoryKey].items[selectedUnitIndex];
             const subItem = unitData.subItems[subIndex];
 
-            document.getElementById('detail-badge').innerText = unitData.unit;
+            document.getElementById('detail-badge').innerText = unitData.unit || unitData.title;
             document.getElementById('detail-title').innerText = subItem.title;
             
             document.getElementById('detail-content').innerHTML = `
@@ -331,7 +366,7 @@
                     <p class="text-slate-600 text-sm leading-relaxed">${subItem.summary}</p>
                 </div>
                 <div class="pt-4 space-y-3">
-                    <p class="text-xs text-slate-400">※ 교과서 본문 내용과 핵심 학습 활동 문항을 함께 복습하세요.</p>
+                    <p class="text-xs text-slate-400">※ 기출 분석 내용과 핵심 포인트를 반복해서 복습하세요.</p>
                 </div>
             `;
 
