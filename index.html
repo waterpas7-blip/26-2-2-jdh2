@@ -23,7 +23,7 @@
     <!-- Main Container -->
     <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-grow">
 
-        <!-- [VIEW 1] 메인 화면: 카테고리 선택 -->
+        <!-- [VIEW 1] 메인 화면: 교재 선택 -->
         <div id="view-home" class="space-y-6">
             <div class="text-center space-y-2 mb-8">
                 <h2 class="text-2xl font-extrabold text-slate-900">학습 자료실</h2>
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <!-- [VIEW 2] 세부 목록 화면 -->
+        <!-- [VIEW 2] 대단원 선택 화면 (교과서의 경우) 또는 일반 목록 화면 -->
         <div id="view-list" class="hidden space-y-6">
             <button onclick="goHome()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
                 <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
@@ -83,7 +83,7 @@
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <h2 id="list-title" class="text-xl font-bold text-slate-900 mb-1">카테고리 제목</h2>
-                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">세부 단원이나 학습지를 선택하세요.</p>
+                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">대단원을 선택하세요.</p>
                 
                 <div id="item-container" class="space-y-3">
                     <!-- 자바스크립트로 동적 생성됨 -->
@@ -91,10 +91,26 @@
             </div>
         </div>
 
-        <!-- [VIEW 3] 상세 학습 내용 화면 -->
-        <div id="view-detail" class="hidden space-y-6">
+        <!-- [VIEW 3] 소단원(작품) 목록 화면 (교과서 전용 3단계) -->
+        <div id="view-sublist" class="hidden space-y-6">
             <button onclick="backToList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
-                <i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기
+                <i class="fa-solid fa-arrow-left"></i> 대단원 목록으로 돌아가기
+            </button>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 id="sublist-title" class="text-xl font-bold text-slate-900 mb-1">소단원 제목</h2>
+                <p id="sublist-subtitle" class="text-sm text-slate-500 mb-6">학습할 소단원 및 작품을 선택하세요.</p>
+                
+                <div id="subitem-container" class="space-y-3">
+                    <!-- 자바스크립트로 동적 생성됨 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- [VIEW 4] 상세 학습 내용 화면 -->
+        <div id="view-detail" class="hidden space-y-6">
+            <button onclick="backToSubList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
+                <i class="fa-solid fa-arrow-left"></i> 소단원 목록으로 돌아가기
             </button>
 
             <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6">
@@ -118,21 +134,57 @@
 
     <!-- JavaScript 로직 -->
     <script>
-        // 📚 데이터 관리 영역 (나중에 단원이나 학습지를 추가하려면 여기에 내용을 수정/추가하면 됩니다!)
+        // 📚 비상(강호영) 문학 교과서 및 부교재·학습지 목차 데이터
         const siteData = {
             textbook: {
                 title: "교과서 : 문학 (비상 강호영)",
                 subtitle: "비상교육 강호영 저 문학 교과서 학습 자료",
+                isGrouped: true, // 대단원-소단원 계층 구조 사용 여부
                 items: [
-                    { title: "1단원. 문학의 본질과 미적 기능", summary: "문학의 개념, 형상화 방식, 미적 가치에 대한 핵심 정리 및 예시 문항입니다." },
-                    { title: "2단원. 갈래별 문학의 이해 (서정·서사 갈래)", summary: "현대시와 고전 시가, 소설의 구조 및 감상 포인트 정리입니다." },
-                    { title: "3단원. 갈래별 문학의 이해 (극·교수 갈래)", summary: "희곡, 시나리오, 수필, 비평 등의 장르적 특성과 주요 작품 분석입니다." },
-                    { title: "4단원. 한국 문학의 흐름", summary: "고대 문학부터 현대 문학까지 시대별 문학사의 흐름과 대표 작품 총정리입니다." }
+                    {
+                        unit: "1단원. 나를 깨우는, 문학",
+                        subItems: [
+                            { title: "01. 문학의 본질과 미적 기능 - 작품 1: 첫사랑 (고재종)", summary: "고재종 시인의 '첫사랑' 감상을 통해 문학의 형상화 방식과 미적 가치를 이해합니다." },
+                            { title: "02. 문학의 인식적·윤리적 기능 - 작품 1: 빙그레의 영역 (김소연)", summary: "김소연 시인의 작품을 통해 삶의 이면을 통찰하는 인식적 기능을 학습합니다." },
+                            { title: "02. 문학의 인식적·윤리적 기능 - 작품 2: 쉽게 씌어진 시 (윤동주)", summary: "일제 강점기 자아 성찰의 과정을 담은 윤동주의 시를 통해 윤리적 기능을 이해합니다." }
+                        ]
+                    },
+                    {
+                        unit: "2단원. 다양한 빛깔로 만나는, 문학",
+                        subItems: [
+                            { title: "01. 서정 갈래의 이해 - 작품 1: 그 복숭아나무 곁으로 (나희덕)", summary: "타자에 대한 깊은 이해와 공감을 다룬 나희덕의 시를 감상합니다." },
+                            { title: "01. 서정 갈래의 이해 - 작품 2: 흰 바람벽이 있어 (백석)", summary: "백석 시인의 작품 속 외로움과 삶의 연민, 자아 성찰의 정서를 파악합니다." },
+                            { title: "02. 서사 갈래의 이해 - 작품 1: 이생규장전 (김시습)", summary: "최초의 한문 소설집 '금오신화' 중 비극적 사랑을 다룬 '이생규장전'을 분석합니다." },
+                            { title: "02. 서사 갈래의 이해 - 작품 2: 도도한 생활 (김애란)", summary: "현대 소설 속 인물의 삶의 애환과 대응 방식을 살펴봅니다." },
+                            { title: "03. 극, 교술 갈래의 이해 - 작품 1: 리바운드 (영화 각본·감독)", summary: "실화를 바탕으로 한 극 갈래 작품의 구조와 감상 포인트를 익힙니다." },
+                            { title: "03. 극, 교술 갈래의 이해 - 작품 2: 뒤지가 (이희승)", summary: "교술 갈래인 수필을 통해 작가의 삶의 태도와 깨달음을 정리합니다." },
+                            { title: "04. 문학 작품의 재구성과 창작", summary: "원작(박목월 시)과 재구성된 작품(정희성 시, 이기호 소설)의 차이점을 비교합니다." },
+                            { title: "05. 문학과 매체", summary: "다양한 매체로 변용된 문학 작품의 수용 양상을 학습합니다." }
+                        ]
+                    },
+                    {
+                        unit: "3단원. 역사와 함께 흐르는, 문학",
+                        subItems: [
+                            { title: "01. 한국 문학의 성격 - 공무도하가 / 봉산탈춤 등", summary: "한국 문학의 전통과 특질을 대표 작품(고대가요, 탈춤 등)을 통해 살펴봅니다." },
+                            { title: "02. 상고 시대~고려 시대 문학 - 주몽 신화 / 찬기파랑가 / 동동", summary: "고대부터 고려 시대까지의 시대적 배경과 주요 향가·가요를 학습합니다." },
+                            { title: "03. 조선 시대 문학 - 시조, 사미인곡, 유충렬전, 일야구도하기", summary: "조선 시대 가사, 고전 소설, 한문 수필의 흐름과 기출 포인트를 총정리합니다." },
+                            { title: "04. 개화기~일제 강점기 문학 - 교목, 거울, 천변 풍경", summary: "근대화 과정 및 일제 강점기 저항·고뇌의 문학 작품들을 분석합니다." },
+                            { title: "05. 광복 이후 문학 - 오발탄, 대설주의보, 북어 대가리", summary: "광복 및 현대 사회의 아픔과 성찰을 담은 소설, 시, 희곡을 다룹니다." }
+                        ]
+                    },
+                    {
+                        unit: "4단원. 삶과 함께하는, 문학",
+                        subItems: [
+                            { title: "01. 자아 성찰과 타자 이해 - 나 (김광규) / 눈물은 왜 짠가 (함민복)", summary: "일상적 삶 속에서 자아를 돌아보고 타인의 아픔에 공감하는 시를 감상합니다." },
+                            { title: "02. 공동체 참여와 문학의 생활화 - 타클라마칸 배달 사고 (배명훈)", summary: "공동체의 가치를 되새기고 문학을 삶 속에서 실천하는 방안을 배웁니다." }
+                        ]
+                    }
                 ]
             },
             workbook: {
                 title: "부교재 : 수평선 기출국어 (이투스북)",
                 subtitle: "수능형 내신 대비를 위한 기출 분석 부교재",
+                isGrouped: false,
                 items: [
                     { title: "PART 01. 현대시 핵심 테마 및 기출 분석", summary: "시어의 의미, 표현상 특징, 화자의 정서 파악 문제 연습입니다." },
                     { title: "PART 02. 고전 시가 필수 작품 및 연계", summary: "고전 시가 현대어 풀이 및 출제 빈도가 높은 핵심 작품 모음입니다." },
@@ -143,6 +195,7 @@
             studyguide: {
                 title: "학습지 모음",
                 subtitle: "선생님별 제공되는 보충 학습지 및 핵심 요약 자료",
+                isGrouped: false,
                 items: [
                     { title: "[송선희T, 이미지T] 1학기 중간고사 대비 핵심 학습지", summary: "송선희 선생님과 이미지 선생님이 출제한 학교 시험 적중 예상 학습지 자료입니다." },
                     { title: "[송선희T, 이미지T] 1학기 기말고사 대비 보충 학습지", summary: "기말고사 범위의 심화 문제 및 서술형 대비 학습지입니다." },
@@ -153,11 +206,13 @@
         };
 
         let currentCategoryKey = '';
+        let selectedUnitIndex = null;
 
         // 화면 전환 함수들
         function showView(viewId) {
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-list').classList.add('hidden');
+            document.getElementById('view-sublist').classList.add('hidden');
             document.getElementById('view-detail').classList.add('hidden');
             document.getElementById(viewId).classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -180,25 +235,69 @@
             data.items.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
+                
+                const titleText = data.isGrouped ? item.unit : item.title;
                 card.innerHTML = `
                     <div class="flex items-center gap-3">
                         <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${index + 1}</span>
-                        <span class="font-semibold text-slate-800 text-sm md:text-base">${item.title}</span>
+                        <span class="font-semibold text-slate-800 text-sm md:text-base">${titleText}</span>
                     </div>
                     <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
                 `;
-                card.onclick = () => showDetail(index);
+
+                if (data.isGrouped) {
+                    card.onclick = () => selectUnit(index);
+                } else {
+                    card.onclick = () => showDetailDirect(index);
+                }
                 container.appendChild(card);
             });
 
             showView('view-list');
         }
 
+        // 교과서 대단원 선택 시 소단원 목록 보여주기
+        function selectUnit(unitIndex) {
+            selectedUnitIndex = unitIndex;
+            const unitData = siteData.textbook.items[unitIndex];
+
+            document.getElementById('sublist-title').innerText = unitData.unit;
+            document.getElementById('sublist-subtitle').innerText = "해당 단원의 소단원 및 학습할 작품을 선택하세요.";
+
+            const container = document.getElementById('subitem-container');
+            container.innerHTML = '';
+
+            unitData.subItems.forEach((subItem, subIndex) => {
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${subIndex + 1}</span>
+                        <span class="font-semibold text-slate-800 text-sm md:text-base">${subItem.title}</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                `;
+                card.onclick = () => showDetail(subIndex);
+                container.appendChild(card);
+            });
+
+            showView('view-sublist');
+        }
+
         function backToList() {
             selectCategory(currentCategoryKey);
         }
 
-        function showDetail(itemIndex) {
+        function backToSubList() {
+            if (siteData[currentCategoryKey].isGrouped) {
+                selectUnit(selectedUnitIndex);
+            } else {
+                selectCategory(currentCategoryKey);
+            }
+        }
+
+        // 부교재/학습지용 바로 상세 보기
+        function showDetailDirect(itemIndex) {
             const item = siteData[currentCategoryKey].items[itemIndex];
             const categoryData = siteData[currentCategoryKey];
 
@@ -212,6 +311,27 @@
                 </div>
                 <div class="pt-4 space-y-3">
                     <p class="text-xs text-slate-400">※ 수업 시간에 배부된 인쇄물이나 필기 노트를 함께 참고하여 학습하세요.</p>
+                </div>
+            `;
+
+            showView('view-detail');
+        }
+
+        // 교과서 소단원 상세 보기
+        function showDetail(subIndex) {
+            const unitData = siteData.textbook.items[selectedUnitIndex];
+            const subItem = unitData.subItems[subIndex];
+
+            document.getElementById('detail-badge').innerText = unitData.unit;
+            document.getElementById('detail-title').innerText = subItem.title;
+            
+            document.getElementById('detail-content').innerHTML = `
+                <div class="bg-indigo-50/50 p-6 rounded-xl border border-indigo-100/60 space-y-2">
+                    <h3 class="font-bold text-indigo-900 text-sm"><i class="fa-solid fa-circle-info"></i> 핵심 작품 정리 및 학습 가이드</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">${subItem.summary}</p>
+                </div>
+                <div class="pt-4 space-y-3">
+                    <p class="text-xs text-slate-400">※ 교과서 본문 내용과 핵심 학습 활동 문항을 함께 복습하세요.</p>
                 </div>
             `;
 
