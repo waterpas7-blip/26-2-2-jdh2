@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>장덕고 2학년 국어 학습 페이지</title>
+    <title>장덕고 2학년 국어 학습터 - DAY 13</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .blank-space { background-color: #e2e8f0; color: transparent; padding: 0.1rem 0.5rem; border-radius: 0.25rem; cursor: pointer; transition: 0.2s; user-select: none; }
+        .blank-space.revealed { background-color: #fef08a; color: #b45309; font-weight: bold; }
+    </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between">
 
@@ -16,7 +20,7 @@
             <h1 class="text-xl font-bold flex items-center gap-2 cursor-pointer" onclick="goHome()">
                 <i class="fa-solid fa-graduation-cap"></i> 장덕고 2학년 국어 학습터
             </h1>
-            <span class="text-xs bg-indigo-500 px-3 py-1 rounded-full font-medium">2026학년도</span>
+            <span class="text-xs bg-indigo-500 px-3 py-1 rounded-full font-medium">DAY 13 실전 마스터</span>
         </div>
     </header>
 
@@ -31,97 +35,142 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- 교과서 카드 -->
-                <div onclick="selectCategory('textbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-200 transition cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
-                            <i class="fa-solid fa-book-open"></i>
-                        </div>
-                        <h3 class="font-bold text-lg text-slate-800 mb-1">교과서</h3>
-                        <p class="text-slate-500 text-xs">문학 (비상 강호영)</p>
-                    </div>
-                    <div class="mt-6 text-indigo-600 text-sm font-semibold flex items-center gap-1">
-                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </div>
-                </div>
-
-                <!-- 부교재 카드 -->
-                <div onclick="selectCategory('workbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-200 transition cursor-pointer flex flex-col justify-between group">
+                <!-- 부교재 카드 (DAY 13 바로 진입 가능하도록 구현) -->
+                <div onclick="selectCategory('workbook')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-emerald-200 transition cursor-pointer flex flex-col justify-between group md:col-start-2">
                     <div>
                         <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition">
                             <i class="fa-solid fa-book"></i>
                         </div>
                         <h3 class="font-bold text-lg text-slate-800 mb-1">부교재</h3>
-                        <p class="text-slate-500 text-xs">수평선 기출국어 (이투스북)</p>
+                        <p class="text-slate-500 text-xs">수평선 기출국어 (DAY 13 현대소설)</p>
                     </div>
                     <div class="mt-6 text-emerald-600 text-sm font-semibold flex items-center gap-1">
-                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </div>
-                </div>
-
-                <!-- 학습지 카드 -->
-                <div onclick="selectCategory('studyguide')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-200 transition cursor-pointer flex flex-col justify-between group">
-                    <div>
-                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition">
-                            <i class="fa-solid fa-file-lines"></i>
-                        </div>
-                        <h3 class="font-bold text-lg text-slate-800 mb-1">학습지 모음</h3>
-                        <p class="text-slate-500 text-xs">송선희T, 이미지T / 한정숙T, 박찬용T</p>
-                    </div>
-                    <div class="mt-6 text-amber-600 text-sm font-semibold flex items-center gap-1">
-                        목록 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
+                        학습 시작하기 <i class="fa-solid fa-arrow-right text-xs"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- [VIEW 2] 대단원/파트 선택 화면 -->
+        <!-- [VIEW 2] 작품 선택 화면 (복덕방 / 점경) -->
         <div id="view-list" class="hidden space-y-6">
             <button onclick="goHome()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
                 <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
             </button>
 
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h2 id="list-title" class="text-xl font-bold text-slate-900 mb-1">카테고리 제목</h2>
-                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">항목을 선택하세요.</p>
-                
-                <div id="item-container" class="space-y-3">
-                    <!-- 자바스크립트로 동적 생성됨 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
+                <h2 class="text-xl font-bold text-slate-900">DAY 13. 일제 강점기 현대소설</h2>
+                <p class="text-sm text-slate-500">공부할 작품을 선택하세요.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div onclick="selectWork('bokdeokbang')" class="p-5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/30 transition cursor-pointer flex justify-between items-center">
+                        <div>
+                            <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded font-bold">작품 1</span>
+                            <h3 class="font-bold text-slate-800 text-lg mt-1">이태준, 「복덕방」</h3>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400"></i>
+                    </div>
+                    <div onclick="selectWork('jeomgyeong')" class="p-5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/30 transition cursor-pointer flex justify-between items-center">
+                        <div>
+                            <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">작품 2</span>
+                            <h3 class="font-bold text-slate-800 text-lg mt-1">이태준, 「점경」</h3>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-400"></i>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- [VIEW 3] 소단원/DAY 세부 작품 목록 화면 -->
-        <div id="view-sublist" class="hidden space-y-6">
+        <!-- [VIEW 3] 4단계 학습 공간 (탭 인터페이스) -->
+        <div id="view-study" class="hidden space-y-6">
             <button onclick="backToList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
-                <i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기
+                <i class="fa-solid fa-arrow-left"></i> 작품 목록으로 돌아가기
             </button>
 
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h2 id="sublist-title" class="text-xl font-bold text-slate-900 mb-1">세부 목록 제목</h2>
-                <p id="sublist-subtitle" class="text-sm text-slate-500 mb-6">학습할 작품이나 파트를 선택하세요.</p>
-                
-                <div id="subitem-container" class="space-y-3">
-                    <!-- 자바스크립트로 동적 생성됨 -->
-                </div>
-            </div>
-        </div>
-
-        <!-- [VIEW 4] 상세 학습 내용 화면 -->
-        <div id="view-detail" class="hidden space-y-6">
-            <button onclick="backToSubList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
-                <i class="fa-solid fa-arrow-left"></i> 세부 목록으로 돌아가기
-            </button>
-
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+            <!-- 작품 타이틀 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center">
                 <div>
-                    <span id="detail-badge" class="text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-semibold">분류</span>
-                    <h2 id="detail-title" class="text-2xl font-bold text-slate-900 mt-2">콘텐츠 제목</h2>
+                    <span id="study-badge" class="text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-semibold">DAY 13</span>
+                    <h2 id="study-title" class="text-2xl font-bold text-slate-900 mt-1">작품 제목</h2>
                 </div>
-                <hr class="border-slate-100">
-                <div id="detail-content" class="text-slate-700 leading-relaxed space-y-4">
-                    <!-- 학습 내용 영역 -->
+                <button onclick="toggleAllBlanks()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs px-4 py-2 rounded-lg font-bold transition shadow-sm">
+                    <i class="fa-solid fa-eye"></i> 전체 빈칸 정답 켜기/끄기
+                </button>
+            </div>
+
+            <!-- 탭 메뉴 버튼들 -->
+            <div class="flex overflow-x-auto gap-2 bg-slate-200/70 p-1.5 rounded-2xl">
+                <button onclick="switchTab(1)" id="tab-btn-1" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition bg-white text-indigo-600 shadow-sm">
+                    <i class="fa-solid fa-image"></i> 탭1. 학습 만화
+                </button>
+                <button onclick="switchTab(2)" id="tab-btn-2" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-file-lines"></i> 탭2. 작품 분석
+                </button>
+                <button onclick="switchTab(3)" id="tab-btn-3" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-circle-question"></i> 탭3. 확인 문제
+                </button>
+                <button onclick="switchTab(4)" id="tab-btn-4" class="flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-pen-to-square"></i> 탭4. 실전 문제
+                </button>
+            </div>
+
+            <!-- 탭 콘텐츠 영역 -->
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 min-h-[400px]">
+                
+                <!-- [TAB 1] 학습 만화 -->
+                <div id="tab-content-1" class="space-y-6">
+                    <div class="border-b pb-4">
+                        <h3 class="text-xl font-bold text-slate-900 mb-1">만화로 끝내는 핵심 시크릿 노트</h3>
+                        <p class="text-xs text-slate-500">인물 관계와 핵심 출제 포인트를 만화 이미지 카드로 가볍게 익히세요[cite: 13, 24].</p>
+                    </div>
+                    <div id="comic-container" class="space-y-6 text-center">
+                        <!-- 동적 생성 -->
+                    </div>
                 </div>
+
+                <!-- [TAB 2] 작품 분석 (숫자 섹션별 탭 + 빈칸 토글) -->
+                <div id="tab-content-2" class="hidden space-y-6">
+                    <div class="border-b pb-4 flex flex-wrap justify-between items-center gap-3">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-1">작품 분석 노트</h3>
+                            <p class="text-xs text-slate-500">빈칸을 클릭하거나 상단 버튼으로 정답을 확인하며 암기하세요.</p>
+                        </div>
+                        <!-- 숫자 섹션 서브 탭 -->
+                        <div id="analysis-subtabs" class="flex flex-wrap gap-1.5">
+                            <!-- 동적 생성 -->
+                        </div>
+                    </div>
+                    <div id="analysis-content-area" class="space-y-4">
+                        <!-- 동적 생성 -->
+                    </div>
+                </div>
+
+                <!-- [TAB 3] 확인 문제 (OX 및 단답형) -->
+                <div id="tab-content-3" class="hidden space-y-6">
+                    <div class="border-b pb-4 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-1">확인 문제 (기초 점검)</h3>
+                            <p class="text-xs text-slate-500">개념 학습이 잘 되었는지 OX 퀴즈와 단답형으로 가볍게 점검하세요[cite: 47, 49].</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="switchQuizSub(1)" id="quiz-sub-1" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">OX 퀴즈</button>
+                            <button onclick="switchQuizSub(2)" id="quiz-sub-2" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 transition">단답형 퀴즈</button>
+                        </div>
+                    </div>
+                    <div id="quiz-container" class="space-y-6">
+                        <!-- 동적 생성 -->
+                    </div>
+                </div>
+
+                <!-- [TAB 4] 실전 문제 (기출 연계 및 상세 해설) -->
+                <div id="tab-content-4" class="hidden space-y-6">
+                    <div class="border-b pb-4">
+                        <h3 class="text-xl font-bold text-slate-900 mb-1">실전 기출 문제</h3>
+                        <p class="text-xs text-slate-500">수능 및 학평 기출 연계 문제를 풀고 상세한 정답과 해설을 확인하세요[cite: 51, 73].</p>
+                    </div>
+                    <div id="exam-container" class="space-y-6">
+                        <!-- 동적 생성 -->
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -134,243 +183,373 @@
 
     <!-- JavaScript 로직 -->
     <script>
-        const siteData = {
-            textbook: {
-                title: "교과서 : 문학 (비상 강호영)",
-                subtitle: "비상교육 강호영 저 문학 교과서 학습 자료",
-                isGrouped: true,
-                items: [
+        // DAY 13 데이터베이스 (복덕방 & 점경)
+        const day13Data = {
+            bokdeokbang: {
+                title: "이태준, 「복덕방」 분석 교재",
+                comic: [
+                    { title: "1. 등장인물 및 설정", desc: "안 초시(60대 노인, 실패한 구세대의 표상, 허황된 야심) / 안경화(딸, 물질만능주의에 찌든 이기적 신여성) / 박희완 영감(부동산 정보 제공 조력자)[cite: 14]." },
+                    { title: "2. 핵심 소재의 기능", desc: "'종이 노끈 안경': 가난하고 초라한 안 초시의 처지와 무너진 자존심을 시각적으로 보여줌. / '맑은 가을 하늘': 파국을 맞은 주인공의 절망감을 극대화하는 대조적 배경[cite: 15, 23]." },
+                    { title: "3. 서상상 특징", desc: "전지적 작가 시점. 1년 동안의 사건 경과를 '요약적 서술'로 압축하여 사건 전개 속도를 높임[cite: 20, 23]." }
+                ],
+                analysisSections: [
                     {
-                        unit: "1단원. 나를 깨우는, 문학",
-                        subItems: [
-                            { title: "01. 문학의 본질과 미적 기능 - 첫사랑 (고재종)", summary: "고재종 시인의 '첫사랑' 감상을 통해 문학의 형상화 방식과 미적 가치를 이해합니다." },
-                            { title: "02. 문학의 인식적·윤리적 기능 - 빙그레의 영역 (김소연)", summary: "김소연 시인의 작품을 통해 삶의 이면을 통찰하는 인식적 기능을 학습합니다." },
-                            { title: "02. 문학의 인식적·윤리적 기능 - 쉽게 씌어진 시 (윤동주)", summary: "일제 강점기 자아 성찰의 과정을 담은 윤동주의 시를 통해 윤리적 기능을 이해합니다." }
-                        ]
+                        name: "1. 작품 개관",
+                        html: `
+                            <table class="w-full border-collapse text-sm">
+                                <tr class="border-b"><th class="w-1/4 p-2 text-left bg-slate-50">갈래</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">단편소설</span>, <span class="blank-space" onclick="toggleBlank(this)">세태소설</span>, <span class="blank-space" onclick="toggleBlank(this)">사실주의소설</span></td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">성격</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">비판적</span>, <span class="blank-space" onclick="toggleBlank(this)">사실적</span>, <span class="blank-space" onclick="toggleBlank(this)">비극적</span>, <span class="blank-space" onclick="toggleBlank(this)">풍자적</span></td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">시점</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">전지적 작가 시점</span> (3인칭 전지적 시점)[cite: 35]</td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">배경</th><td class="p-2">시간: 1930년대 일제 강점기 (<span class="blank-space" onclick="toggleBlank(this)">부동산 투기</span> 광풍) / 공간: 서울의 한 복덕방[cite: 35]</td></tr>
+                                <tr><th class="p-2 text-left bg-slate-50">주제</th><td class="p-2">근대화 및 물질만능주의 세태 속에서 밀려난 구시대 노인층의 비극적 몰락[cite: 35]</td></tr>
+                            </table>
+                        `
                     },
                     {
-                        unit: "2단원. 다양한 빛깔로 만나는, 문학",
-                        subItems: [
-                            { title: "01. 서정 갈래의 이해 - 그 복숭아나무 곁으로 (나희덕)", summary: "타자에 대한 깊은 이해와 공감을 다룬 나희덕의 시를 감상합니다." },
-                            { title: "01. 서정 갈래의 이해 - 흰 바람벽이 있어 (백석)", summary: "백석 시인의 작품 속 외로움과 삶의 연민, 자아 성찰의 정서를 파악합니다." },
-                            { title: "02. 서사 갈래의 이해 - 이생규장전 (김시습)", summary: "최초의 한문 소설집 '금오신화' 중 비극적 사랑을 다룬 '이생규장전'을 분석합니다." },
-                            { title: "02. 서사 갈래의 이해 - 도도한 생활 (김애란)", summary: "현대 소설 속 인물의 삶의 애환과 대응 방식을 살펴봅니다." },
-                            { title: "03. 극, 교술 갈래의 이해 - 리바운드 (영화 각본·감독)", summary: "실화를 바탕으로 한 극 갈래 작품의 구조와 감상 포인트를 익힙니다." },
-                            { title: "03. 극, 교술 갈래의 이해 - 뒤지가 (이희승)", summary: "교술 갈래인 수필을 통해 작가의 삶의 태도와 깨달음을 정리합니다." },
-                            { title: "04. 문학 작품의 재구성과 창작", summary: "원작과 재구성된 작품의 차이점을 비교합니다." },
-                            { title: "05. 문학과 매체", summary: "다양한 매체로 변용된 문학 작품의 수용 양상을 학습합니다." }
-                        ]
+                        name: "2. 전체 줄거리",
+                        html: `
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>발단:</b> 사업 실패로 몰락한 안 초시는 복덕방에서 소일하며 딸 안경화의 눈치를 보며 살아감[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>전개:</b> 박희완에게 개발 정보를 들은 안 초시는 딸을 설득하고, 딸은 연구소를 담보로 <span class="blank-space" onclick="toggleBlank(this)">3천 원</span>을 투자함[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>위기:</b> 1년 뒤 축항지가 아니며 관변 모씨의 <span class="blank-space" onclick="toggleBlank(this)">사기극</span>이었음이 밝혀짐[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>절정:</b> 재산을 날린 안 초시는 죄책감과 딸의 냉대를 견디지 못하고 <span class="blank-space" onclick="toggleBlank(this)">음독자살</span>로 생을 마감함[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>결말:</b> 딸 안경화는 명예훼손을 막으려 아비의 자살을 숨긴 채 장례를 치르고, 노인들은 씁쓸하게 탄식함[cite: 37].</div>
+                            </div>
+                        `
                     },
                     {
-                        unit: "3단원. 역사와 함께 흐르는, 문학",
-                        subItems: [
-                            { title: "01. 한국 문학의 성격", summary: "한국 문학의 전통과 특질을 대표 작품을 통해 살펴봅니다[cite: 3]." },
-                            { title: "02. 상고 시대~고려 시대 문학", summary: "주몽 신화, 찬기파랑가, 동동 등 고대~고려 시대 주요 문학을 학습합니다[cite: 3]." },
-                            { title: "03. 조선 시대 문학", summary: "시조, 사미인곡, 유충렬전, 일야구도하기 등 조선 시대 문학을 총정리합니다[cite: 3]." },
-                            { title: "04. 개화기~일제 강점기 문학", summary: "교목, 거울, 천변 풍경 등 근현대 초기 작품을 분석합니다[cite: 3]." },
-                            { title: "05. 광복 이후 문학", summary: "오발탄, 대설주의보, 북어 대가리 등 현대 문학 작품을 학습합니다[cite: 3]." }
-                        ]
+                        name: "3. 등장인물 분석",
+                        html: `
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>안 초시:</b> 사업 실패로 몰락한 <span class="blank-space" onclick="toggleBlank(this)">구시대적</span> 인물. 경제 능력이 없어 얹혀살면서도 체면과 허세를 버리지 못함[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>안경화(딸):</b> 무용가로 성공한 <span class="blank-space" onclick="toggleBlank(this)">신여성</span>이나 극도로 이기적이고 타산적이며 아버지를 경제적 부담으로 여김[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>서 참위:</b> 전직 군인 출신으로 안 초시의 비참한 처지를 진심으로 불쌍히 여기고 이해해 주는 인물[cite: 37].</div>
+                            </div>
+                        `
                     },
                     {
-                        unit: "4단원. 삶과 함께하는, 문학",
-                        subItems: [
-                            { title: "01. 자아 성찰과 타자 이해 - 김광규, 함민복 작품", summary: "일상 속 자아 성찰과 타인에 대한 공감을 다룬 시를 감상합니다[cite: 1, 2]." },
-                            { title: "02. 공동체 참여와 문학의 생활화 - 타클라마칸 배달 사고 (배명훈)", summary: "공동체의 가치를 되새기고 문학의 생활화를 학습합니다[cite: 1, 2]." }
-                        ]
+                        name: "4. 핵심 소재 및 특징",
+                        html: `
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>종이 노끈 안경:</b> 안 초시의 체면과 허세, 딸에게 1원조차 받지 못하는 <span class="blank-space" onclick="toggleBlank(this)">비참한 처지</span>를 보여주는 상징[cite: 45].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>요약적 서술:</b> 1년 동안의 사기극 전모와 경과를 서술자가 직접 압축적으로 전달하여 사건 전개 속도를 높임[cite: 35].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>배경과의 대조:</b> 눈부시게 맑은 가을 하늘(옥양목 구름)과 때 묻은 적삼을 입고 눈물짓는 안 초시의 처지를 <span class="blank-space" onclick="toggleBlank(this)">대조</span>하여 비극성을 극대화함[cite: 35, 45].</div>
+                            </div>
+                        `
+                    }
+                ],
+                quizOx: [
+                    { q: "안 초시는 겉으로는 심심풀이라고 말하지만 내면에는 재기하고 싶은 야심과 욕망이 끓어오르고 있다.", answer: "O", exp: "[지문 근거] 1문단 '속으로는 박희완 영감보다 더 세상에 대한 야심이 끓었다'[cite: 51]" },
+                    { q: "딸 안경화는 아버지를 인격적 존재로 존중하여 안경다리 수리비를 넉넉하게 챙겨 주었다.", answer: "X", exp: "[지문 근거] 안경다리 고칠 1원을 달랬더니 50전만 주고 마코 값으로 다 나감[cite: 39, 51]" },
+                    { q: "[B] 단락은 서술자가 1년간의 사건 경과를 직접 요약하여 전달하는 요약적 서술 기법을 사용했다.", answer: "O", exp: "[지문 근거] 1년이 지났다로 시작하며 사기극의 전모를 압축적으로 제시함[cite: 43, 51]" }
+                ],
+                quizShort: [
+                    { q: "안 초시가 부러진 안경다리를 고치지 못하고 묶어 쓰며 드러나는 상징적 소재는 무엇인가?", answer: "종이 노끈안경 (또는 안경다리)", exp: "[출제 포인트] 안 초시의 허세와 비참한 처지[cite: 53]" },
+                    { q: "투자 실패 후 안 초시가 탄식하며 비판한, 돈 때문에 부모 자식 간의 천륜이 깨진 세태를 뜻하는 단어는?", answer: "물질만능주의", exp: "[출제 포인트] 재물이란 친자 간의 의리도 배추 밑 도리듯 하는 건가?[cite: 53]" }
+                ],
+                exams: [
+                    {
+                        title: "[기출 연계] [A]와 [B]에 대한 설명으로 가장 적절한 것은?",
+                        options: [
+                            "① [A]는 외양 묘사를 통해 인물의 성격을 드러내고, [B]는 배경 묘사를 통해 처지를 드러낸다.",
+                            "② [A]는 대화와 서술을 통해 인물 간의 갈등이 드러나고, [B]는 요약적 서술을 통해 사건의 전모가 드러난다.",
+                            "③ [A]는 작품 속 서술자가 평가하고, [B]는 앞으로 전개될 사건을 예측한다.",
+                            "④ [A]는 시간의 흐름에 역행하고, [B]는 순차적으로 진행된다."
+                        ],
+                        answer: 2,
+                        exp: "[정답 해설] [A]는 안 초시와 딸의 대화와 서술을 통해 안경다리 수리와 보험료 문제 등의 갈등을 보여주며, [B]는 1년이 지난 후의 사기극 전모를 요약적 서술로 제시하고 있습니다[cite: 82]."
                     }
                 ]
             },
-            workbook: {
-                title: "부교재 : 수평선 기출국어 (이투스북)",
-                subtitle: "수능형 내신 대비를 위한 기출 분석 부교재 (DAY 01 ~ DAY 24)",
-                isGrouped: true,
-                items: [
+            jeomgyeong: {
+                title: "이태준, 「점경」 분석 교재",
+                comic: [
+                    { title: "1. 작품 개관 및 시점", desc: "3인칭 전지적 작가 시점이되, 어린아이의 시선과 의식에 초점을 맞춘 '제한적 전지적 시점(초점화)'을 사용함[cite: 59]." },
+                    { title: "2. 공간적 대비", desc: "화신백화점(상류층의 공간) ↔ 탑골 공원(누구나 쉬는 공간). 근대 자본주의 도시에서 소외된 아이의 처지를 부각함[cite: 26]." },
+                    { title: "3. 어른들의 군상", desc: "이기적인 수염 난 어른(배 껍질 짓밟음), 구경거리로 삼는 서양인 부부, 자존심과 분노를 보여주는 지까다비 어른[cite: 25]." }
+                ],
+                analysisSections: [
                     {
-                        unit: "[현대시] DAY 01 ~ DAY 06",
-                        subItems: [
-                            { title: "DAY 01. 관조와 성찰", summary: "박목월 '하단에서', 함민복 '감나무', 오세영 '열매', 김광규 '대장간의 유혹' 등[cite: 11]" },
-                            { title: "DAY 02. 사랑과 그리움", summary: "김종길 '성탄제', 한용운 '수의 비밀', 김광균 '목련나무 옆에서', 정일근 '그리운 곳으로 돌아보라' 등[cite: 11]" },
-                            { title: "DAY 03. 현실 극복 의지", summary: "이육사 '광야', 박용래 '울타리 밖', 김기림 '태양의 풍속', 천양희 '마음의 수수밭' 등[cite: 11]" },
-                            { title: "DAY 04. 비판과 반성", summary: "김춘수 '겨울밤의 꿈', 오규원 '개봉동과 장미', 이성복 '다시 봄이 왔다', 김기택 '벽' 등[cite: 11]" },
-                            { title: "DAY 05. 연민과 유대감", summary: "김광균 '성호부근', 이성선 '논두렁에 서서', 김춘수 '부재', 황동규 '삶을 살아낸다는 건' 등[cite: 11]" },
-                            { title: "DAY 06. 자연과 생명", summary: "김영랑 '사개 틀린 고풍의 툇마루에', 정진규 '따뜻한 달걀', 정지용 '해바라기씨', 신경림 '낙타' 등[cite: 11]" }
-                        ]
+                        name: "1. 작품 개관",
+                        html: `
+                            <table class="w-full border-collapse text-sm">
+                                <tr class="border-b"><th class="w-1/4 p-2 text-left bg-slate-50">갈래</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">단편소설</span>, <span class="blank-space" onclick="toggleBlank(this)">세태소설</span>, <span class="blank-space" onclick="toggleBlank(this)">근대소설</span>[cite: 59]</td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">성격</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">비판적</span>, <span class="blank-space" onclick="toggleBlank(this)">사실적</span>, <span class="blank-space" onclick="toggleBlank(this)">세태고발적</span>, <span class="blank-space" onclick="toggleBlank(this)">비극적</span>[cite: 59]</td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">시점</th><td class="p-2">어린아이의 시선에 초점을 맞춘 <span class="blank-space" onclick="toggleBlank(this)">제한적 전지적 시점</span> (초점화)[cite: 59]</td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">배경</th><td class="p-2">시간: 1930년대 일제 강점기 / 공간: 경성 화신백화점 앞, 탑골공원[cite: 59]</td></tr>
+                                <tr><th class="p-2 text-left bg-slate-50">주제</th><td class="p-2">일제 강점기 민중의 고통스러운 삶과 타인을 냉대하는 도시 세태의 비인간성 비판[cite: 59]</td></tr>
+                            </table>
+                        `
                     },
                     {
-                        unit: "[고전 시가] DAY 07 ~ DAY 12",
-                        subItems: [
-                            { title: "DAY 07. 자연 친화", summary: "정훈 '수남방옹가', 신흠 '천정기', 김광욱 '율리유곡', 윤휴 '육우당기' 등[cite: 11]" },
-                            { title: "DAY 08. 연군지정", summary: "정철 '속미인곡', 권근 '주옹설', 이금익 '죽창곡', 홍우원 '노마설' 등[cite: 11]" },
-                            { title: "DAY 09. 교훈과 학문", summary: "정철 '훈민가', 장영희 '괜찮아', 이황 '도산십이곡', 이희승 '뒤지가 진적' 등[cite: 11]" },
-                            { title: "DAY 10. 가난과 흥취", summary: "백석 '흰 바람벽이 있어', 정훈 '탄궁가', '우활가', 이중경 '오대어부가구곡' 등[cite: 11]" },
-                            { title: "DAY 11. 기행과 여정", summary: "이방익 '표해가', 김기림 '여행', 백광홍 '관서별곡', 임춘 '동행기' 등[cite: 11]" },
-                            { title: "DAY 12. 무상감과 회한", summary: "청춘과부가, 신영복 '당신이 나무를 더 사랑하는 까닭', 이색 '부벽루' 등[cite: 11]" }
-                        ]
+                        name: "2. 전체 줄거리",
+                        html: `
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>발단:</b> 백화점 진열창의 과자 곽을 보던 헐벗은 아이가 쫓겨나고, 가난으로 학교를 중퇴하고 어머니를 여읜 과거를 회상함[cite: 61].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>전개:</b> 탑골공원에 들어간 아이가 과일 껍질을 노리지만 팔자수염 어른이 배 껍질을 구둣발로 <span class="blank-space" onclick="toggleBlank(this)">짓이겨 버리며</span> 멸시함[cite: 61].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>위기:</b> 서양인 부부가 아이들을 구경거리로 활동사진을 찍고 은전을 던지자 아이들과 지까다비 어른이 달려듦[cite: 61].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>절정/결말:</b> 지까다비 어른은 돈을 줍지 않고 서양인을 분노로 노려보고, 아이는 남도 못 갖게 하는 <span class="blank-space" onclick="toggleBlank(this)">비인간적 세태</span>에 슬픈 의문을 품음[cite: 61].</div>
+                            </div>
+                        `
                     },
                     {
-                        unit: "[현대 소설] DAY 13 ~ DAY 18",
-                        subItems: [
-                            { title: "DAY 13. 일제 강점기", summary: "서유미 '저건 사람도 아니다', 이태준 '복덕방', '점경' 등[cite: 11, 12]" },
-                            { title: "DAY 14. 산업화와 노동자", summary: "성석제 '투명 인간', 서영은 '삼각돛' 등[cite: 12]" },
-                            { title: "DAY 15. 삶과 성찰", summary: "이청준 '과녁', 양귀자 '모순' 등[cite: 12]" },
-                            { title: "DAY 16. 현대인의 자화상", summary: "성석제 '론도' 등[cite: 12]" },
-                            { title: "DAY 17. 자연과 인식", summary: "오영수 '메아리', 이문구 '관촌수필' 등[cite: 12]" },
-                            { title: "DAY 18. 이념과 전쟁", summary: "윤흥길 '아이젠하워에게 보내는 멧돼지', 염상섭 '효풍' 등[cite: 12]" }
-                        ]
+                        name: "3. 등장인물 분석",
+                        html: `
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>아이(주인공):</b> 가난으로 퇴학당한 불쌍한 어린이. 생존을 위해 과일 껍질과 동전에 집착하지만 순수한 마음을 지님[cite: 61].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>여덟팔자수염 어른:</b> 배 껍질을 아이가 주우려 하자 구둣발로 짓이겨 버리고 멸시의 눈빛을 던지는 <span class="blank-space" onclick="toggleBlank(this)">이기적</span> 인물[cite: 61].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>지까다비 신은 어른:</b> 은전에 달려들었으나 서양인의 시혜적 구경거리에 분노를 느껴 서양인을 노려보는 <span class="blank-space" onclick="toggleBlank(this)">자의식</span>을 가진 인물[cite: 61].</div>
+                            </div>
+                        `
                     },
                     {
-                        unit: "[고전 소설] DAY 19 ~ DAY 24",
-                        subItems: [
-                            { title: "DAY 19. 영웅 소설", summary: "백봉선전, 진성운전, 월영낭자전 등[cite: 12]" },
-                            { title: "DAY 20. 여성 영웅 소설", summary: "정비전, 음양옥지환 등[cite: 12]" },
-                            { title: "DAY 21. 애정 소설 1", summary: "이생규장전, 옥단춘전, 왕시전 등[cite: 12]" },
-                            { title: "DAY 22. 애정 소설 2", summary: "왕경룡전 등[cite: 12]" },
-                            { title: "DAY 23. 가정 소설", summary: "유씨전, 토공전 등[cite: 12]" },
-                            { title: "DAY 24. 판소리계 소설", summary: "춘향전 등[cite: 12]" }
-                        ]
+                        name: "4. 핵심 소재 및 특징",
+                        html: `
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>음성 상징어:</b> '수북수북', '질겅질겅', '어청어청' 등의 감각어를 활용하여 생생한 <span class="blank-space" onclick="toggleBlank(this)">현장감</span>을 부여함[cite: 59].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>근대 풍물 소재:</b> '화신 백화점', '전차 소리', '활동사진' 등을 기용하여 시대적 사실성을 높임[cite: 59].</div>
+                            </div>
+                        `
                     }
-                ]
-            },
-            studyguide: {
-                title: "학습지 모음",
-                subtitle: "선생님별 제공되는 보충 학습지 및 핵심 요약 자료",
-                isGrouped: false,
-                items: [
-                    { title: "[송선희T, 이미지T] 1학기 중간고사 대비 핵심 학습지", summary: "송선희 선생님과 이미지 선생님이 출제한 학교 시험 적중 예상 학습지 자료입니다." },
-                    { title: "[송선희T, 이미지T] 1학기 기말고사 대비 보충 학습지", summary: "기말고사 범위의 심화 문제 및 서술형 대비 학습지입니다." },
-                    { title: "[한정숙T, 박찬용T] 현대 문학 집중 탐구 학습지", summary: "한정숙 선생님, 박찬용 선생님의 현대시 및 현대소설 핵심 분석 학습지입니다." },
-                    { title: "[한정숙T, 박찬용T] 고전 문학 총정리 프린트물", summary: "내신 출제 1순위 고전 작품 완벽 대비 워크시트입니다." }
+                ],
+                quizOx: [
+                    { q: "아이는 화신 백화점 진열창의 과자 곽을 보고 석 달치 월사금을 구하지 못해 중퇴했던 과거를 떠올린다.", answer: "O", exp: "[지문 근거] 1문단 월사금 변통이 안 되어 보통학교를 그만두고 만 과거 회상[cite: 69, 73]" },
+                    { q: "팔자수염 어른은 아이가 배고픈 것을 가엾게 여겨 배 껍질을 양보해 주었다.", answer: "X", exp: "[지문 근거] 넓적한 구둣발로 배 껍질을 짓이기고 멸시의 눈빛을 던짐[cite: 63, 73]" },
+                    { q: "지까다비 신은 어른은 서양인이 던진 은전을 재빨리 챙겨 주머니에 넣었다.", answer: "X", exp: "[지문 근거] 돈은 집으려 하지 않고 서양인의 먹살을 잡을 듯이 부릅뜬 눈으로 노림[cite: 65, 73]" }
+                ],
+                quizShort: [
+                    { q: "헐벗은 아이가 백화점 진열창 안의 과자 곽을 보며 다가설 수 없는 불평등한 상장 공간은 무슨 백화점인가?", answer: "화신", exp: "[출제 포인트] 근대 자본주의 도시 경성의 화려한 상징물[cite: 71, 75]" },
+                    { q: "서양인 부부가 조선 아이들의 가난을 촬영한 대가로 던져준 동정적·시혜적 매개물은 무엇인가?", answer: "은전 (또는 백동전)", exp: "[출제 포인트] 은전 한 닢을 내던짐[cite: 65, 75]" }
+                ],
+                exams: [
+                    {
+                        title: "[기출 연계] 윗글의 서술상 특징으로 가장 적절한 것은?",
+                        options: [
+                            "① 서술자를 교체하여 사건을 새로운 국면으로 전환하고 있다.",
+                            "② 서술자가 특정 인물의 심리와 의식에 초점을 맞추어 서사를 전개하고 있다.",
+                            "③ 서술자가 간접 인용을 반복적으로 활용하여 인물의 행적을 서술하고 있다.",
+                            "④ 동시적 사건들을 병치하여 서로 다른 관점을 드러내고 있다."
+                        ],
+                        answer: 2,
+                        exp: "[정답 해설] 작품 밖 서술자가 3인칭으로 서술하고 있으나, '아이'의 시선과 심리('저건 뭘까?', '웬일일까?')에 초점을 맞추어 서사하는 제한적 전지적 시점(초점화)을 취하고 있습니다[cite: 74, 76]."
+                    }
                 ]
             }
         };
 
-        let currentCategoryKey = '';
-        let selectedUnitIndex = null;
+        let currentWorkKey = 'bokdeokbang';
+        let currentTab = 1;
+        let currentQuizSub = 1;
 
         function showView(viewId) {
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-list').classList.add('hidden');
-            document.getElementById('view-sublist').classList.add('hidden');
-            document.getElementById('view-detail').classList.add('hidden');
+            document.getElementById('view-study').classList.add('hidden');
             document.getElementById(viewId).classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
-        function goHome() {
-            showView('view-home');
+        function goHome() { showView('view-home'); }
+        function selectCategory(key) { showView('view-list'); }
+        function backToList() { showView('view-list'); }
+
+        function selectWork(workKey) {
+            currentWorkKey = workKey;
+            const data = day13Data[workKey];
+            document.getElementById('study-title').innerText = data.title;
+            showView('view-study');
+            switchTab(1);
         }
 
-        function selectCategory(categoryKey) {
-            currentCategoryKey = categoryKey;
-            const data = siteData[categoryKey];
+        // 탭 전환 함수
+        function switchTab(tabNum) {
+            currentTab = tabNum;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`tab-content-${i}`).classList.add('hidden');
+                const btn = document.getElementById(`tab-btn-${i}`);
+                btn.className = "flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition text-slate-600 hover:text-slate-900";
+            }
+            document.getElementById(`tab-content-${tabNum}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabNum}`);
+            activeBtn.className = "flex-1 min-w-[100px] py-3 px-4 rounded-xl font-bold text-sm transition bg-white text-indigo-600 shadow-sm";
 
-            document.getElementById('list-title').innerText = data.title;
-            document.getElementById('list-subtitle').innerText = data.subtitle;
+            if (tabNum === 1) renderComic();
+            if (tabNum === 2) renderAnalysisSub(0);
+            if (tabNum === 3) renderQuiz();
+            if (tabNum === 4) renderExam();
+        }
 
-            const container = document.getElementById('item-container');
+        // 탭 1: 학습 만화 렌더링
+        function renderComic() {
+            const data = day13Data[currentWorkKey];
+            const container = document.getElementById('comic-container');
             container.innerHTML = '';
-
-            data.items.forEach((item, index) => {
+            data.comic.forEach((item, idx) => {
                 const card = document.createElement('div');
-                card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
-                
-                const titleText = data.isGrouped ? (item.unit || item.title) : item.title;
+                card.className = "bg-slate-50 p-6 rounded-2xl border border-slate-200 text-left space-y-2";
                 card.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${index + 1}</span>
-                        <span class="font-semibold text-slate-800 text-sm md:text-base">${titleText}</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                    <span class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-bold">포인트 ${idx + 1}</span>
+                    <h4 class="font-bold text-slate-900 text-base mt-2">${item.title}</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">${item.desc}</p>
                 `;
-
-                if (data.isGrouped) {
-                    card.onclick = () => selectUnit(index);
-                } else {
-                    card.onclick = () => showDetailDirect(index);
-                }
                 container.appendChild(card);
             });
-
-            showView('view-list');
         }
 
-        function selectUnit(unitIndex) {
-            selectedUnitIndex = unitIndex;
-            const unitData = siteData[currentCategoryKey].items[unitIndex];
-
-            document.getElementById('sublist-title').innerText = unitData.unit || unitData.title;
-            document.getElementById('sublist-subtitle').innerText = "해당 파트의 세부 학습 항목을 선택하세요.";
-
-            const container = document.getElementById('subitem-container');
-            container.innerHTML = '';
-
-            unitData.subItems.forEach((subItem, subIndex) => {
-                const card = document.createElement('div');
-                card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
-                card.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${subIndex + 1}</span>
-                        <span class="font-semibold text-slate-800 text-sm md:text-base">${subItem.title}</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
-                `;
-                card.onclick = () => showDetail(subIndex);
-                container.appendChild(card);
+        // 탭 2: 작품 분석 (숫자 섹션 서브 탭)
+        function renderAnalysisSub(secIdx) {
+            const data = day13Data[currentWorkKey];
+            const subtabsContainer = document.getElementById('analysis-subtabs');
+            subtabsContainer.innerHTML = '';
+            
+            data.analysisSections.forEach((sec, idx) => {
+                const subBtn = document.createElement('button');
+                subBtn.className = `px-3 py-1.5 rounded-lg text-xs font-bold transition ${idx === secIdx ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`;
+                subBtn.innerText = sec.name;
+                subBtn.onclick = () => {
+                    renderAnalysisSub(idx);
+                };
+                subtabsContainer.appendChild(subBtn);
             });
 
-            showView('view-sublist');
+            document.getElementById('analysis-content-area').innerHTML = data.analysisSections[secIdx].html;
         }
 
-        function backToList() {
-            selectCategory(currentCategoryKey);
+        // 빈칸 토글 기능
+        function toggleBlank(el) {
+            el.classList.toggle('revealed');
         }
 
-        function backToSubList() {
-            if (siteData[currentCategoryKey].isGrouped) {
-                selectUnit(selectedUnitIndex);
+        function toggleAllBlanks() {
+            const blanks = document.querySelectorAll('.blank-space');
+            const anyRevealed = Array.from(blanks).every(b => b.classList.contains('revealed'));
+            blanks.forEach(b => {
+                if (anyRevealed) b.classList.remove('revealed');
+                else b.classList.add('revealed');
+            });
+        }
+
+        // 탭 3: 확인 문제 서브 전환
+        function switchQuizSub(subNum) {
+            currentQuizSub = subNum;
+            document.getElementById('quiz-sub-1').className = `px-3 py-1.5 rounded-lg text-xs font-bold transition ${subNum === 1 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'}`;
+            document.getElementById('quiz-sub-2').className = `px-3 py-1.5 rounded-lg text-xs font-bold transition ${subNum === 2 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'}`;
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const data = day13Data[currentWorkKey];
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            if (currentQuizSub === 1) {
+                data.quizOx.forEach((item, idx) => {
+                    const div = document.createElement('div');
+                    div.className = "p-5 rounded-xl border border-slate-200 space-y-3 bg-slate-50/50";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-start gap-4">
+                            <span class="font-bold text-sm text-slate-900">Q${idx + 1}. ${item.q}</span>
+                            <div class="flex gap-1 shrink-0">
+                                <button onclick="checkOx(this, 'O', '${item.answer}', 'exp-${idx}')" class="w-10 h-10 rounded-lg border font-bold text-sm bg-white hover:bg-indigo-50 transition">O</button>
+                                <button onclick="checkOx(this, 'X', '${item.answer}', 'exp-${idx}')" class="w-10 h-10 rounded-lg border font-bold text-sm bg-white hover:bg-indigo-50 transition">X</button>
+                            </div>
+                        </div>
+                        <div id="exp-${idx}" class="hidden text-xs p-3 rounded-lg bg-indigo-50 text-indigo-900 font-medium"></div>
+                    `;
+                    container.appendChild(div);
+                });
             } else {
-                selectCategory(currentCategoryKey);
+                data.quizShort.forEach((item, idx) => {
+                    const div = document.createElement('div');
+                    div.className = "p-5 rounded-xl border border-slate-200 space-y-3 bg-slate-50/50";
+                    div.innerHTML = `
+                        <div class="space-y-2">
+                            <span class="font-bold text-sm text-slate-900">Q${idx + 1}. ${item.q}</span>
+                            <div class="flex gap-2">
+                                <input type="text" id="short-input-${idx}" placeholder="정답을 입력하세요" class="flex-grow p-2.5 text-sm border rounded-lg focus:outline-none focus:border-indigo-500 bg-white">
+                                <button onclick="checkShort(${idx}, '${item.answer}')" class="px-4 py-2.5 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition">정답 확인</button>
+                            </div>
+                        </div>
+                        <div id="short-exp-${idx}" class="hidden text-xs p-3 rounded-lg bg-indigo-50 text-indigo-900 font-medium"></div>
+                    `;
+                    container.appendChild(div);
+                });
             }
         }
 
-        function showDetailDirect(itemIndex) {
-            const item = siteData[currentCategoryKey].items[itemIndex];
-            const categoryData = siteData[currentCategoryKey];
-
-            document.getElementById('detail-badge').innerText = categoryData.title.split(':')[0].trim();
-            document.getElementById('detail-title').innerText = item.title;
+        function checkOx(btn, userChoice, correctChoice, expId) {
+            const parent = btn.parentElement;
+            Array.from(parent.children).forEach(b => b.className = "w-10 h-10 rounded-lg border font-bold text-sm bg-white text-slate-700");
             
-            document.getElementById('detail-content').innerHTML = `
-                <div class="bg-indigo-50/50 p-6 rounded-xl border border-indigo-100/60 space-y-2">
-                    <h3 class="font-bold text-indigo-900 text-sm"><i class="fa-solid fa-circle-info"></i> 학습 안내 및 요약</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">${item.summary}</p>
-                </div>
-                <div class="pt-4 space-y-3">
-                    <p class="text-xs text-slate-400">※ 수업 시간에 배부된 인쇄물이나 필기 노트를 함께 참고하여 학습하세요.</p>
-                </div>
-            `;
-
-            showView('view-detail');
+            const expDiv = document.getElementById(expId);
+            const data = day13Data[currentWorkKey].quizOx[expId.split('-')[1]];
+            
+            expDiv.classList.remove('hidden');
+            if (userChoice === correctChoice) {
+                btn.className = "w-10 h-10 rounded-lg border font-bold text-sm bg-emerald-500 text-white shadow-sm";
+                expDiv.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> 정답입니다! <br>${data.exp}`;
+            } else {
+                btn.className = "w-10 h-10 rounded-lg border font-bold text-sm bg-rose-500 text-white shadow-sm";
+                expDiv.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> 오답입니다. (정답: ${correctChoice}) <br>${data.exp}`;
+            }
         }
 
-        function showDetail(subIndex) {
-            const unitData = siteData[currentCategoryKey].items[selectedUnitIndex];
-            const subItem = unitData.subItems[subIndex];
-
-            document.getElementById('detail-badge').innerText = unitData.unit || unitData.title;
-            document.getElementById('detail-title').innerText = subItem.title;
+        function checkShort(idx, correct) {
+            const val = document.getElementById(`short-input-${idx}`).value.trim();
+            const expDiv = document.getElementById(`short-exp-${idx}`);
+            const data = day13Data[currentWorkKey].quizShort[idx];
             
-            document.getElementById('detail-content').innerHTML = `
-                <div class="bg-indigo-50/50 p-6 rounded-xl border border-indigo-100/60 space-y-2">
-                    <h3 class="font-bold text-indigo-900 text-sm"><i class="fa-solid fa-circle-info"></i> 핵심 작품 정리 및 학습 가이드</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">${subItem.summary}</p>
-                </div>
-                <div class="pt-4 space-y-3">
-                    <p class="text-xs text-slate-400">※ 기출 분석 내용과 핵심 포인트를 반복해서 복습하세요.</p>
-                </div>
-            `;
+            expDiv.classList.remove('hidden');
+            if (val && correct.includes(val)) {
+                expDiv.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> 정답입니다! (${correct}) <br>${data.exp}`;
+            } else {
+                expDiv.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> 오답입니다. (정답: ${correct}) <br>${data.exp}`;
+            }
+        }
 
-            showView('view-detail');
+        // 탭 4: 실전 문제 렌더링
+        function renderExam() {
+            const data = day13Data[currentWorkKey];
+            const container = document.getElementById('exam-container');
+            container.innerHTML = '';
+
+            data.exams.forEach((exam, idx) => {
+                const div = document.createElement('div');
+                div.className = "p-6 rounded-2xl border border-slate-200 space-y-4 bg-slate-50/40";
+                
+                let optionsHtml = exam.options.map((opt, oIdx) => `
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 transition cursor-pointer text-sm">
+                        <input type="radio" name="exam-${idx}" value="${oIdx + 1}" class="text-indigo-600 focus:ring-indigo-500">
+                        <span>${opt}</span>
+                    </label>
+                `).join('');
+
+                div.innerHTML = `
+                    <h4 class="font-bold text-slate-900 text-base">[실전 문제 ${idx + 1}] ${exam.title}</h4>
+                    <div class="space-y-2">${optionsHtml}</div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="checkExam(${idx}, ${exam.answer})" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition shadow-sm">정답 및 해설 보기</button>
+                    </div>
+                    <div id="exam-exp-${idx}" class="hidden text-xs p-4 rounded-xl bg-indigo-50 text-indigo-900 space-y-2 border border-indigo-100 font-medium"></div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function checkExam(idx, correctNum) {
+            const radios = document.querySelectorAll(`input[name="exam-${idx}"]`);
+            let userVal = null;
+            radios.forEach(r => { if (r.checked) userVal = parseInt(r.value); });
+
+            const expDiv = document.getElementById(`exam-exp-${idx}`);
+            const data = day13Data[currentWorkKey].exams[idx];
+
+            expDiv.classList.remove('hidden');
+            if (userVal === correctNum) {
+                expDiv.innerHTML = `<div class="font-bold text-emerald-700 text-sm"><i class="fa-solid fa-circle-check"></i> 정답입니다! (${correctNum}번)</div><p class="text-slate-700 leading-relaxed">${data.exp}</p>`;
+            } else {
+                expDiv.innerHTML = `<div class="font-bold text-rose-700 text-sm"><i class="fa-solid fa-circle-xmark"></i> 오답입니다. (정답: ${correctNum}번)</div><p class="text-slate-700 leading-relaxed">${data.exp}</p>`;
+            }
         }
     </script>
 </body>
