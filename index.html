@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <!-- [VIEW 2] 세부 목록 화면 (부교재 DAY 13 또는 교과서 단원 목록 등) -->
+        <!-- [VIEW 2] 대단원/파트 목록 화면 -->
         <div id="view-list" class="hidden space-y-6">
             <button onclick="goHome()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
                 <i class="fa-solid fa-arrow-left"></i> 홈으로 돌아가기
@@ -87,7 +87,7 @@
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <h2 id="list-title" class="text-xl font-bold text-slate-900 mb-1">카테고리 제목</h2>
-                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">세부 항목을 선택하세요.</p>
+                <p id="list-subtitle" class="text-sm text-slate-500 mb-6">항목을 선택하세요.</p>
                 
                 <div id="item-container" class="space-y-3">
                     <!-- 자바스크립트로 동적 생성됨 -->
@@ -95,38 +95,26 @@
             </div>
         </div>
 
-        <!-- [VIEW 3] 부교재 DAY 13 작품 선택 화면 (복덕방 / 점경) -->
+        <!-- [VIEW 3] 소단원/DAY 세부 작품 목록 화면 -->
         <div id="view-sublist" class="hidden space-y-6">
-            <button onclick="selectCategory('workbook')" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
-                <i class="fa-solid fa-arrow-left"></i> 부교재 목록으로 돌아가기
+            <button onclick="backToList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
+                <i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기
             </button>
 
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
-                <h2 class="text-xl font-bold text-slate-900">DAY 13. 일제 강점기 현대소설</h2>
-                <p class="text-sm text-slate-500">공부할 작품을 선택하세요.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div onclick="selectWork('bokdeokbang')" class="p-5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/30 transition cursor-pointer flex justify-between items-center">
-                        <div>
-                            <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded font-bold">작품 1</span>
-                            <h3 class="font-bold text-slate-800 text-lg mt-1">이태준, 「복덕방」</h3>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-slate-400"></i>
-                    </div>
-                    <div onclick="selectWork('jeomgyeong')" class="p-5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/30 transition cursor-pointer flex justify-between items-center">
-                        <div>
-                            <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">작품 2</span>
-                            <h3 class="font-bold text-slate-800 text-lg mt-1">이태준, 「점경」</h3>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-slate-400"></i>
-                    </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 id="sublist-title" class="text-xl font-bold text-slate-900 mb-1">세부 목록 제목</h2>
+                <p id="sublist-subtitle" class="text-sm text-slate-500 mb-6">학습할 작품이나 파트를 선택하세요.</p>
+                
+                <div id="subitem-container" class="space-y-3">
+                    <!-- 자바스크립트로 동적 생성됨 -->
                 </div>
             </div>
         </div>
 
-        <!-- [VIEW 4] 4단계 학습 공간 (탭 인터페이스) -->
+        <!-- [VIEW 4] 4단계 학습 공간 (탭 인터페이스 - DAY 13 전용) -->
         <div id="view-study" class="hidden space-y-6">
             <button onclick="backToSubList()" class="text-sm text-slate-500 hover:text-indigo-600 flex items-center gap-1 font-medium transition">
-                <i class="fa-solid fa-arrow-left"></i> 작품 목록으로 돌아가기
+                <i class="fa-solid fa-arrow-left"></i> 소단원 목록으로 돌아가기
             </button>
 
             <!-- 작품 타이틀 -->
@@ -227,60 +215,93 @@
 
     <!-- JavaScript 로직 -->
     <script>
-        // 전체 카테고리 데이터 (교과서, 부교재, 학습지)
+        // 전체 교재 목차 데이터 (교과서, 부교재 전체 DAY, 학습지)
         const siteData = {
             textbook: {
                 title: "교과서 : 문학 (비상 강호영)",
                 subtitle: "비상교육 강호영 저 문학 교과서 학습 자료",
+                isGrouped: true,
                 items: [
-                    { title: "1단원. 나를 깨우는, 문학", summary: "문학의 본질과 인식적·윤리적 기능 학습" },
-                    { title: "2단원. 다양한 빛깔로 만나는, 문학", summary: "서정, 서사, 극, 교술 갈래의 이해" },
-                    { title: "3단원. 역사와 함께 흐르는, 문학", summary: "한국 문학의 흐름과 시대별 대표 작품 총정리" },
-                    { title: "4단원. 삶과 함께하는, 문학", summary: "자아 성찰과 타자 이해, 공동체 참여" }
+                    {
+                        unit: "1단원. 나를 깨우는, 문학",
+                        subItems: [
+                            { title: "01. 문학의 본질과 미적 기능 - 첫사랑 (고재종)", summary: "문학의 형상화 방식과 미적 가치 이해" },
+                            { title: "02. 문학의 인식적·윤리적 기능 - 빙그레의 영역 / 쉽게 씌어진 시", summary: "삶의 이면 통찰 및 자아 성찰" }
+                        ]
+                    },
+                    {
+                        unit: "2단원. 다양한 빛깔로 만나는, 문학",
+                        subItems: [
+                            { title: "01. 서정 갈래의 이해", summary: "나희덕, 백석 작품 감상" },
+                            { title: "02. 서사 갈래의 이해", summary: "이생규장전, 도도한 생활 분석" },
+                            { title: "03. 극, 교술 갈래의 이해", summary: "리바운드, 뒤지가 감상" },
+                            { title: "04. 문학 작품의 재구성과 창작", summary: "원작과 재구성 작품 비교" },
+                            { title: "05. 문학과 매체", summary: "매체 변용 양상 학습" }
+                        ]
+                    },
+                    {
+                        unit: "3단원. 역사와 함께 흐르는, 문학",
+                        subItems: [
+                            { title: "01. 한국 문학의 성격", summary: "한국 문학의 전통과 특질" },
+                            { title: "02. 상고 시대~고려 시대 문학", summary: "주몽 신화, 찬기파랑가, 동동 등" },
+                            { title: "03. 조선 시대 문학", summary: "시조, 사미인곡, 유충렬전 등" },
+                            { title: "04. 개화기~일제 강점기 문학", summary: "교목, 거울, 천변 풍경 등" },
+                            { title: "05. 광복 이후 문학", summary: "오발탄, 대설주의보, 북어 대가리 등" }
+                        ]
+                    },
+                    {
+                        unit: "4단원. 삶과 함께하는, 문학",
+                        subItems: [
+                            { title: "01. 자아 성찰과 타자 이해", summary: "김광규, 함민복 작품 감상" },
+                            { title: "02. 공동체 참여와 문학의 생활화", summary: "타클라마칸 배달 사고 (배명훈)" }
+                        ]
+                    }
                 ]
             },
             workbook: {
                 title: "부교재 : 수평선 기출국어 (이투스북)",
-                subtitle: "수능형 내신 대비를 위한 기출 분석 부교재",
+                subtitle: "수능형 내신 대비를 위한 기출 분석 부교재 (DAY 01 ~ DAY 24)",
+                isGrouped: false,
                 items: [
-                    { title: "DAY 01 ~ DAY 06 (현대시)", summary: "관조와 성찰, 사랑과 그리움, 현실 극복 의지 등" },
-                    { title: "DAY 07 ~ DAY 12 (고전 시가)", summary: "자연 친화, 연군지정, 교훈과 학문, 가난과 흥취 등" },
-                    { title: "DAY 13 (일제 강점기 현대소설)", summary: "이태준 「복덕방」 및 「점경」 핵심 분석 및 학습만화", isSpecial: true },
-                    { title: "DAY 14 ~ DAY 18 (산업화 및 현대 소설)", summary: "산업화와 노동자, 삶과 성찰 등" },
-                    { title: "DAY 19 ~ DAY 24 (고전 소설)", summary: "영웅 소설, 애정 소설, 판소리계 소설 등" }
+                    { title: "[현대시] DAY 01 ~ DAY 06 (관조와 성찰 ~ 자연과 생명)", summary: "현대시 핵심 테마 및 기출 분석" },
+                    { title: "[고전 시가] DAY 07 ~ DAY 12 (자연 친화 ~ 무상감과 회한)", summary: "고전 시가 필수 작품 및 연계 학습" },
+                    { title: "[현대 소설] DAY 13. 일제 강점기 (이태준 복덕방, 점경)", summary: "학습 만화, 작품 분석 노트, 빈칸 테스트, 기출 문제 제공", isSpecial: true },
+                    { title: "[현대 소설] DAY 14 ~ DAY 18 (산업화 ~ 이념과 전쟁)", summary: "성석제, 이청준, 윤흥길 등 주요 현대 소설 분석" },
+                    { title: "[고전 소설] DAY 19 ~ DAY 24 (영웅 소설 ~ 판소리계 소설)", summary: "백봉선전, 춘향전 등 고전 산문 완벽 대비" }
                 ]
             },
             studyguide: {
                 title: "학습지 모음",
                 subtitle: "선생님별 제공되는 보충 학습지 및 핵심 요약 자료",
+                isGrouped: false,
                 items: [
-                    { title: "[송선희T, 이미지T] 1학기 중간고사 대비 핵심 학습지", summary: "적중 예상 문항 및 핵심 요약 프린트" },
-                    { title: "[송선희T, 이미지T] 1학기 기말고사 대비 보충 학습지", summary: "심화 문제 및 서술형 대비 워크시트" },
-                    { title: "[한정숙T, 박찬용T] 현대 문학 집중 탐구 학습지", summary: "현대시 및 현대소설 핵심 분석" },
-                    { title: "[한정숙T, 박찬용T] 고전 문학 총정리 프린트물", summary: "내신 출제 1순위 고전 작품 완벽 대비" }
+                    { title: "[송선희T, 이미지T] 1학기 중간고사 대비 핵심 학습지", summary: "학교 시험 적중 예상 학습지 자료" },
+                    { title: "[송선희T, 이미지T] 1학기 기말고사 대비 보충 학습지", summary: "기말고사 범위 심화 및 서술형 대비" },
+                    { title: "[한정숙T, 박찬용T] 현대 문학 집중 탐구 학습지", summary: "현대시 및 현대소설 핵심 분석 워크시트" },
+                    { title: "[한정숙T, 박찬용T] 고전 문학 총정리 프린트물", summary: "고전 출제 1순위 작품 완벽 대비 자료" }
                 ]
             }
         };
 
-        // DAY 13 데이터베이스 (복덕방 & 점경)
+        // DAY 13 상세 분석 데이터베이스 (복덕방 & 점경 - 상세 교재 내용 반영)
         const day13Data = {
             bokdeokbang: {
                 title: "이태준, 「복덕방」 분석 교재",
                 comic: [
-                    { title: "1. 등장인물 및 설정", desc: "안 초시(60대 노인, 실패한 구세대의 표상, 허황된 야심) / 안경화(딸, 물질만능주의에 찌든 이기적 신여성) / 박희완 영감(부동산 정보 제공 조력자)[cite: 14]." },
-                    { title: "2. 핵심 소재의 기능", desc: "'종이 노끈 안경': 가난하고 초라한 안 초시의 처지와 무너진 자존심을 시각적으로 보여줌. / '맑은 가을 하늘': 파국을 맞은 주인공의 절망감을 극대화하는 대조적 배경[cite: 15, 23]." },
-                    { title: "3. 서술상 특징", desc: "전지적 작가 시점. 1년 동안의 사건 경과를 '요약적 서술'로 압축하여 사건 전개 속도를 높임[cite: 20, 23]." }
+                    { title: "1. 등장인물 설정 및 비주얼", desc: "안 초시(60대 노인, 실패한 구세대의 표상, 허황된 야심과 무능함) / 안경화(딸, 물질만능주의에 찌든 이기적 신여성) / 박희완 영감(투기 정보 제공 조력자)[cite: 14]." },
+                    { title: "2. 핵심 소재의 상징성", desc: "'종이 노끈 안경': 가난하고 초라한 안 초시의 처지와 무너진 자존심 / '맑은 가을 하늘': 파국을 맞은 주인공의 절망감을 극대화하는 대조적 배경[cite: 15, 23]." },
+                    { title: "3. 서술상 특징", desc: "전지적 작가 시점. 1년 동안의 사기극 전모와 경과를 서술자의 '요약적 서술'로 압축하여 전달[cite: 20, 23]." }
                 ],
                 analysisSections: [
                     {
                         name: "1. 작품 개관",
                         html: `
                             <table class="w-full border-collapse text-sm">
-                                <tr class="border-b"><th class="w-1/4 p-2 text-left bg-slate-50">갈래</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">단편소설</span>, <span class="blank-space" onclick="toggleBlank(this)">세태소설</span>, <span class="blank-space" onclick="toggleBlank(this)">사실주의소설</span></td></tr>
-                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">성격</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">비판적</span>, <span class="blank-space" onclick="toggleBlank(this)">사실적</span>, <span class="blank-space" onclick="toggleBlank(this)">비극적</span>, <span class="blank-space" onclick="toggleBlank(this)">풍자적</span></td></tr>
-                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">시점</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">전지적 작가 시점</span> (3인칭 전지적 시점)[cite: 35]</td></tr>
+                                <tr class="border-b"><th class="w-1/4 p-2 text-left bg-slate-50">갈래</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">단편소설</span>, <span class="blank-space" onclick="toggleBlank(this)">세태소설</span>, <span class="blank-space" onclick="toggleBlank(this)">사실주의소설</span>[cite: 35]</td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">성격</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">비판적</span>, <span class="blank-space" onclick="toggleBlank(this)">사실적</span>, <span class="blank-space" onclick="toggleBlank(this)">비극적</span>, <span class="blank-space" onclick="toggleBlank(this)">풍자적</span>[cite: 35]</td></tr>
+                                <tr class="border-b"><th class="p-2 text-left bg-slate-50">시점</th><td class="p-2"><span class="blank-space" onclick="toggleBlank(this)">전지적 작가 시점</span> (3인칭 전지적 작가 시점)[cite: 35]</td></tr>
                                 <tr class="border-b"><th class="p-2 text-left bg-slate-50">배경</th><td class="p-2">시간: 1930년대 일제 강점기 (<span class="blank-space" onclick="toggleBlank(this)">부동산 투기</span> 광풍) / 공간: 서울의 한 복덕방[cite: 35]</td></tr>
-                                <tr><th class="p-2 text-left bg-slate-50">주제</th><td class="p-2">근대화 및 물질만능주의 세태 속에서 밀려난 구시대 노인층의 비극적 몰락[cite: 35]</td></tr>
+                                <tr><th class="p-2 text-left bg-slate-50">주제</th><td class="p-2">근대화 및 물질만능주의 세태 속에서 밀려난 구시대 노인층의 비극적 몰락과 타산적 인간관계 비판[cite: 35]</td></tr>
                             </table>
                         `
                     },
@@ -288,11 +309,11 @@
                         name: "2. 전체 줄거리",
                         html: `
                             <div class="space-y-3 text-sm">
-                                <div class="p-3 bg-slate-50 rounded-xl border"><b>발단:</b> 사업 실패로 몰락한 안 초시는 복덕방에서 소일하며 딸 안경화의 눈치를 보며 살아감[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>발단:</b> 사업 실패로 몰락한 안 초시는 복덕방에서 소일하며 무용가로 성공했으나 자신에게 인색한 딸 안경화의 눈치를 보며 살아감[cite: 37].</div>
                                 <div class="p-3 bg-slate-50 rounded-xl border"><b>전개:</b> 박희완에게 개발 정보를 들은 안 초시는 딸을 설득하고, 딸은 연구소를 담보로 <span class="blank-space" onclick="toggleBlank(this)">3천 원</span>을 투자함[cite: 37].</div>
                                 <div class="p-3 bg-slate-50 rounded-xl border"><b>위기:</b> 1년 뒤 축항지가 아니며 관변 모씨의 <span class="blank-space" onclick="toggleBlank(this)">사기극</span>이었음이 밝혀짐[cite: 37].</div>
-                                <div class="p-3 bg-slate-50 rounded-xl border"><b>절정:</b> 재산을 날린 안 초시는 죄책감과 딸의 냉대를 견디지 못하고 <span class="blank-space" onclick="toggleBlank(this)">음독자살</span>로 생을 마감함[cite: 37].</div>
-                                <div class="p-3 bg-slate-50 rounded-xl border"><b>결말:</b> 딸 안경화는 명예훼손을 막으려 아비의 자살을 숨긴 채 장례를 치르고, 노인들은 씁쓸하게 탄식함[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>절정:</b> 딸의 재산을 날린 안 초시는 죄책감과 딸의 냉대를 마주할 자신이 없어 서너 끼니를 굶다가 결국 극단적 <span class="blank-space" onclick="toggleBlank(this)">음독자살</span>로 생을 마감함[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>결말:</b> 딸 안경화는 자신의 명예훼손을 막으려 아비의 자살을 숨긴 채 화려하게 장례를 치르고, 이를 본 노인들은 씁쓸하게 탄식함[cite: 37].</div>
                             </div>
                         `
                     },
@@ -302,7 +323,7 @@
                             <div class="space-y-3 text-sm">
                                 <div class="p-3 bg-slate-50 rounded-xl border"><b>안 초시:</b> 사업 실패로 몰락한 <span class="blank-space" onclick="toggleBlank(this)">구시대적</span> 인물. 경제 능력이 없어 얹혀살면서도 체면과 허세를 버리지 못함[cite: 37].</div>
                                 <div class="p-3 bg-slate-50 rounded-xl border"><b>안경화(딸):</b> 무용가로 성공한 <span class="blank-space" onclick="toggleBlank(this)">신여성</span>이나 극도로 이기적이고 타산적이며 아버지를 경제적 부담으로 여김[cite: 37].</div>
-                                <div class="p-3 bg-slate-50 rounded-xl border"><b>서 참위:</b> 전직 군인 출신으로 안 초시의 비참한 처지를 진심으로 불쌍히 여기고 이해해 주는 인물[cite: 37].</div>
+                                <div class="p-3 bg-slate-50 rounded-xl border"><b>서 참위:</b> 전직 군인 출신으로 안 초시의 비참하고 가련한 처지를 진심으로 불쌍히 여기고 이해해 주는 인물[cite: 37].</div>
                             </div>
                         `
                     },
@@ -445,22 +466,24 @@
             data.items.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = "p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition cursor-pointer flex justify-between items-center";
+                
+                const titleText = data.isGrouped ? item.unit : item.title;
                 card.innerHTML = `
                     <div class="flex items-center gap-3">
                         <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">${index + 1}</span>
                         <div>
-                            <span class="font-semibold text-slate-800 text-sm md:text-base">${item.title}</span>
-                            <p class="text-xs text-slate-400 mt-0.5">${item.summary}</p>
+                            <span class="font-semibold text-slate-800 text-sm md:text-base">${titleText}</span>
+                            <p class="text-xs text-slate-400 mt-0.5">${item.summary || (item.subItems ? item.subItems.length + "개 소단원/작품" : "")}</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
                 `;
 
-                // 부교재의 DAY 13(세 번째 항목)을 누를 때만 특별 학습터(sublist)로 이동
+                // 부교재의 DAY 13을 누를 때만 학습실(sublist)로 이동, 나머지는 알림
                 if (categoryKey === 'workbook' && item.isSpecial) {
                     card.onclick = () => showView('view-sublist');
                 } else {
-                    card.onclick = () => alert('선택하신 항목의 상세 학습 페이지 준비 중입니다! (부교재 DAY 13을 클릭해 보세요)');
+                    card.onclick = () => alert('선택하신 항목은 부교재 DAY 13 학습터와 동일한 형식으로 순차 업데이트 중입니다! (부교재 DAY 13을 클릭해 보세요)');
                 }
                 container.appendChild(card);
             });
@@ -476,6 +499,7 @@
             switchTab(1);
         }
 
+        function backToList() { selectCategory(currentCategoryKey); }
         function backToSubList() { showView('view-sublist'); }
 
         // 탭 전환 함수
